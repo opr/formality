@@ -1,0 +1,35 @@
+{
+  "env" : {
+    "production" : {
+      "presets": [ "env",
+        [
+          "latest", {
+          "es2015": {
+            "modules": false
+          }
+        }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "transform-object-rest-spread"
+      ]
+    },
+    "development" : {
+      "presets": [ "env",
+        [
+          "latest", {
+          "es2015": {
+            "modules": false
+          }
+        }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "react-hot-loader/babel",
+        "transform-object-rest-spread"
+      ]
+    }
+  }
+}
