@@ -2,8 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {AppContainer} from 'react-hot-loader'
 
-import TestInput from './TestInput/TestInput'
-import SecondTest from './SecondTest/SecondTest';
+import SuperForm from './SuperForm/SuperForm';
 
 const getRenderFunc = app => {
   return () => {
@@ -21,8 +20,7 @@ const render = (Component, element, name) => {
 };
 
 let apps = [
-    {element: document.getElementById('test-input-anchor'), component: <TestInput/>, file: './TestInput/TestInput', name: 'TestInput'},
-    {element: document.getElementById('second-test-anchor'), component: <SecondTest/>, file: './SecondTest/SecondTest', name: 'SecondTest'}
+    {element: document.getElementById('super-form'), component: <SuperForm />, file: './SuperForm/SuperForm', name: 'SuperForm'}
 ];
 
 for (let a of apps) {

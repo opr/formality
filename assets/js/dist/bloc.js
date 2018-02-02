@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8a02c1c95a09d3611634"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "83dfb4348b8f0c3b462a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -806,7 +806,7 @@ executePageFunctions();
 
 /***/ }),
 
-/***/ "./assets/js/react/SecondTest/SecondTest.jsx":
+/***/ "./assets/js/react/SuperForm/SuperForm.jsx":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -832,89 +832,33 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SecondTest = function (_React$Component) {
-    _inherits(SecondTest, _React$Component);
+var SuperForm = function (_React$Component) {
+    _inherits(SuperForm, _React$Component);
 
-    function SecondTest(props) {
-        _classCallCheck(this, SecondTest);
+    function SuperForm(props) {
+        _classCallCheck(this, SuperForm);
 
-        var _this = _possibleConstructorReturn(this, (SecondTest.__proto__ || Object.getPrototypeOf(SecondTest)).call(this));
+        var _this = _possibleConstructorReturn(this, (SuperForm.__proto__ || Object.getPrototypeOf(SuperForm)).call(this));
 
         _this.state = _extends({}, props);
         return _this;
     }
 
-    _createClass(SecondTest, [{
+    _createClass(SuperForm, [{
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('div', null);
-        }
-    }]);
-
-    return SecondTest;
-}(_react2.default.Component);
-
-exports.default = SecondTest;
-
-/***/ }),
-
-/***/ "./assets/js/react/TestInput/TestInput.jsx":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__("./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TestInput = function (_React$Component) {
-    _inherits(TestInput, _React$Component);
-
-    function TestInput(props) {
-        _classCallCheck(this, TestInput);
-
-        var _this = _possibleConstructorReturn(this, (TestInput.__proto__ || Object.getPrototypeOf(TestInput)).call(this));
-
-        _this.state = _extends({}, props, { value: 'test' });
-        return _this;
-    }
-
-    _createClass(TestInput, [{
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
             return _react2.default.createElement(
                 'div',
-                { className: 'test-input' },
-                _react2.default.createElement('input', { type: 'text', value: this.state.value, onChange: function onChange(e) {
-                        return _this2.setState({ value: e.target.value });
-                    } })
+                null,
+                'super form'
             );
         }
     }]);
 
-    return TestInput;
+    return SuperForm;
 }(_react2.default.Component);
 
-exports.default = TestInput;
+exports.default = SuperForm;
 
 /***/ }),
 
@@ -934,13 +878,9 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactHotLoader = __webpack_require__("./node_modules/react-hot-loader/lib/index.js");
 
-var _TestInput = __webpack_require__("./assets/js/react/TestInput/TestInput.jsx");
+var _SuperForm = __webpack_require__("./assets/js/react/SuperForm/SuperForm.jsx");
 
-var _TestInput2 = _interopRequireDefault(_TestInput);
-
-var _SecondTest = __webpack_require__("./assets/js/react/SecondTest/SecondTest.jsx");
-
-var _SecondTest2 = _interopRequireDefault(_SecondTest);
+var _SuperForm2 = _interopRequireDefault(_SuperForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -958,7 +898,7 @@ var render = function render(Component, element, name) {
     ), element);
 };
 
-var apps = [{ element: document.getElementById('test-input-anchor'), component: _react2.default.createElement(_TestInput2.default, null), file: './TestInput/TestInput', name: 'TestInput' }, { element: document.getElementById('second-test-anchor'), component: _react2.default.createElement(_SecondTest2.default, null), file: './SecondTest/SecondTest', name: 'SecondTest' }];
+var apps = [{ element: document.getElementById('super-form'), component: _react2.default.createElement(_SuperForm2.default, null), file: './SuperForm/SuperForm', name: 'SuperForm' }];
 
 var _iteratorNormalCompletion = true;
 var _didIteratorError = false;

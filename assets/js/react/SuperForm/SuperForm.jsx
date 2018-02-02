@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class SecondTest extends React.Component {
+export default class SuperForm extends React.Component {
 
     constructor(props) {
         super();
@@ -9,7 +9,7 @@ export default class SecondTest extends React.Component {
 
     render() {
         return (
-        <div></div>
+        <div>super form</div>
         );
     }
 }
