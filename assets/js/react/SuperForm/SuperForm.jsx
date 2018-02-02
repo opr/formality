@@ -9,7 +9,9 @@ export default class SuperForm extends React.Component {
 
     render() {
         return (
-        <div>super form</div>
+        <div>
+            <form action=""></form>
+        </div>
         );
     }
 }
