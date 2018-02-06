@@ -8,12 +8,15 @@ import {shallow, mount} from 'enzyme'
 
 describe('Super form', () => {
     it('renders a form tag onto the page when no formConfig property is supplied', () => {
-        const superForm = shallow(<SuperForm />);
+        const superForm = mount(<SuperForm />);
         expect(superForm.find('form').length).to.equal(1);
+        expect(findDOMNode(superForm.instance()).querySelector('form').getAttribute('method')).to.equal('get');
+        expect(findDOMNode(superForm.instance()).querySelector('form').getAttribute('action')).to.equal('/');
     });
 
-    it('renders a form tag with the correct attributes onto the page.', () => {
+    it('renders a form tag with the correct attributes as per the config.', () => {
         const superForm = mount(<SuperForm formConfig={formConfig} />);
-        //console.log(superForm.html());
+        expect(findDOMNode(superForm.instance()).querySelector('form').getAttribute('method')).to.equal(formConfig.formMethod);
+        expect(findDOMNode(superForm.instance()).querySelector('form').getAttribute('action')).to.equal(formConfig.formAction);
     });
 });

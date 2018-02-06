@@ -1,19 +1,27 @@
-import {getFormAttributes} from "../react/SuperForm/Logic/formConfig";
-import {testForm} from "./testForm";
+import {List, Map, fromJS} from 'immutable';
 import {expect} from 'chai';
+import {testForm} from "./testForm";
+import {updateValue, nextPage, previousPage, setPage, setDefaultVariables} from "../react/SuperForm/Logic/Logic";
 
-describe('form logic', () => {
-   it('gets the correct attributes for the form from a configuration object', () => {
-      expect(getFormAttributes(testForm)).to.deep.equal({
-          method: testForm.formMethod,
-          action: testForm.formAction
-      });
-   });
+describe('Form logic', () => {
 
-   it('returns a default action when a config object is not present', () => {
-       expect(getFormAttributes()).to.deep.equal({
-           method: 'get',
-           action: '/'
-       });
-   })
+    it('updates a value in the variable list', () => {
+        const initialState = Map({
+            name: 'Thomas',
+            age: 18,
+            gender: 'Male'
+        });
+        expect(updateValue(initialState, 'name', 'Jason')).to.equal(
+            Map({
+                name: 'Jason',
+                age: 18,
+                gender: 'Male'
+            })
+        )
+    });
+
+    it('gets all required variables', () => {
+       const initialState =  fromJS(testForm);
+       expect(setDefaultVariables(initialState));
+    });
 });
