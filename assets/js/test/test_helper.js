@@ -1,6 +1,10 @@
 import chai from 'chai';
 import {JSDOM} from 'jsdom';
 import chaiImmutable from 'chai-immutable';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const dom = new JSDOM('<!doctype html><html><body></body></html>', {
     beforeParse(window) {
