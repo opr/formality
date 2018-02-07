@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8aecbd2ca36c86a74bab"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8581546a37adfd85ab0f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -966,6 +966,75 @@ function getFormAttributes() {
 
 /***/ }),
 
+/***/ "./assets/js/react/SuperForm/PageMarkers.jsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
+
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PageMarkers = function (_React$Component) {
+    _inherits(PageMarkers, _React$Component);
+
+    function PageMarkers(props) {
+        _classCallCheck(this, PageMarkers);
+
+        var _this = _possibleConstructorReturn(this, (PageMarkers.__proto__ || Object.getPrototypeOf(PageMarkers)).call(this));
+
+        var pageMarkers = [];
+
+        for (var i = 0; i < props.numberOfPages - 1; i++) {
+            pageMarkers.push(_react2.default.createElement('div', { className: 'page-markers__marker', key: 'page-markers__marker__' + i }));
+        }
+        _this.state = _extends({}, props, { pageMarkers: pageMarkers });
+        return _this;
+    }
+
+    _createClass(PageMarkers, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'page-markers' },
+                this.state.pageMarkers
+            );
+        }
+    }]);
+
+    return PageMarkers;
+}(_react2.default.Component);
+
+exports.default = (0, _reactRedux.connect)(function (state) {
+    return {
+        numberOfPages: state.get('pages', (0, _immutable.List)([])).count() + 1
+    };
+})(PageMarkers);
+
+/***/ }),
+
 /***/ "./assets/js/react/SuperForm/SuperForm.jsx":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1001,6 +1070,10 @@ var _Reducer2 = _interopRequireDefault(_Reducer);
 var _FormPage = __webpack_require__("./assets/js/react/SuperForm/FormPage.jsx");
 
 var _FormPage2 = _interopRequireDefault(_FormPage);
+
+var _PageMarkers = __webpack_require__("./assets/js/react/SuperForm/PageMarkers.jsx");
+
+var _PageMarkers2 = _interopRequireDefault(_PageMarkers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1047,6 +1120,7 @@ var SuperForm = function (_React$Component) {
                     _react2.default.createElement(
                         'form',
                         { action: this.state.action, method: this.state.method },
+                        _react2.default.createElement(_PageMarkers2.default, null),
                         _react2.default.createElement(_FormPage2.default, null)
                     )
                 )
@@ -1107,6 +1181,15 @@ var apps = [{ element: document.getElementById('super-form'), component: _react2
                 name: 'Basic Info',
                 sections: [{
                     name: 'Personal Details',
+                    elements: [{
+                        type: 'select',
+                        name: 'title'
+                    }]
+                }]
+            }, {
+                name: 'Payment Details',
+                sections: [{
+                    name: 'Credit Card',
                     elements: [{
                         type: 'select',
                         name: 'title'

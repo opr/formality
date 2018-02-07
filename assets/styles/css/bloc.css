@@ -2670,3 +2670,8 @@ h6 {
   font-family: "TiemposHeadlineLight", sans-serif; }
   .input.\--with-button {
     padding: 10px 60px 10px 10px; }
+
+.page-markers__marker {
+  width: 20px;
+  height: 20px;
+  background: #560000; }

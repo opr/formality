@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM, {findDOMNode} from 'react-dom';
-import {renderIntoDocument, scryRenderedDOMComponentsWithTag} from 'react-dom/test-utils';
+import {findDOMNode} from 'react-dom';
 import SuperForm from '../react/SuperForm/SuperForm';
 import FormPage from '../react/SuperForm/FormPage';
 import {expect} from 'chai';
 import {testForm as formConfig} from './testForm';
-import {shallow, mount} from 'enzyme'
+import {shallow, mount} from 'enzyme';
 
 describe('Super form', () => {
     const superForm = mount(<SuperForm formConfig={formConfig} />);

@@ -38,7 +38,22 @@ let apps = [
                             ]
                         }
                     ]
+                },
+                {
+                    name: 'Payment Details',
+                    sections: [
+                        {
+                            name: 'Credit Card',
+                            elements: [
+                                {
+                                    type: 'select',
+                                    name: 'title'
+                                }
+                            ]
+                        }
+                    ]
                 }
+
             ]
         }}/>, file: './SuperForm/SuperForm', name: 'SuperForm'}
 ];

@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {fromJS} from 'immutable';
 import reducer from './Logic/Reducer';
 import FormPage from './FormPage';
+import PageMarkers from './PageMarkers';
 
 export default class SuperForm extends React.Component {
 
@@ -33,6 +34,7 @@ export default class SuperForm extends React.Component {
             <Provider store={this.store}>
                 <div>
                     <form action={this.state.action} method={this.state.method}>
+                        <PageMarkers />
                         <FormPage />
                     </form>
                 </div>

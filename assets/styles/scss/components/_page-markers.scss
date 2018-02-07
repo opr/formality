@@ -1,0 +1,8 @@
+@include component(page-markers) {
+
+  @include part(marker) {
+    width: 20px;
+    height: 20px;
+    background: $palette_a;
+  }
+}
