@@ -19,7 +19,28 @@ const render = (Component, element, name) => {
 };
 
 let apps = [
-    {element: document.getElementById('super-form'), component: <SuperForm />, file: './SuperForm/SuperForm', name: 'SuperForm'}
+    {element: document.getElementById('super-form'), component: <SuperForm formConfig={{
+            formName: 'testForm',
+            formEndpoint: '/testEndpoint',
+            formMethod: 'post',
+            formAction: '/testAction',
+            pages: [
+                {
+                    name: 'Basic Info',
+                    sections: [
+                        {
+                            name: 'Personal Details',
+                            elements: [
+                                {
+                                    type: 'select',
+                                    name: 'title'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }}/>, file: './SuperForm/SuperForm', name: 'SuperForm'}
 ];
 
 for (let a of apps) {

@@ -3,9 +3,7 @@ export function updateValue(state, key, value) {
 }
 
 export function setDefaultVariables(state) {
-    if(state.getIn('currentPage')) {
-        state.set('currentPage', 0);
-    }
+    return state.set('currentPage', state.get('currentPage', 0));
 }
 
 export function nextPage(state) {
@@ -13,9 +11,9 @@ export function nextPage(state) {
 }
 
 export function previousPage(state) {
-
+    return setPage(state, state.get('currentPage', 0) - 1);
 }
 
 export function setPage(state, page) {
-
+    return state.set('currentPage', page);
 }

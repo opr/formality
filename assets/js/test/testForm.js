@@ -17,6 +17,21 @@ export const testForm = {
                     ]
                 }
             ]
+        },
+        {
+            name: 'Payment Details',
+            sections: [
+                {
+                    name: 'Credit Card',
+                    elements: [
+                        {
+                            type: 'select',
+                            name: 'title'
+                        }
+                    ]
+                }
+            ]
         }
+
     ]
 };

@@ -21,7 +21,27 @@ describe('Form logic', () => {
     });
 
     it('gets all required variables', () => {
-       const initialState =  fromJS(testForm);
-       expect(setDefaultVariables(initialState));
+       const initialState =  setDefaultVariables(fromJS(testForm));
+       expect(initialState.get('currentPage')).to.equal(0);
     });
+
+    it('advances the page number', () => {
+        const initialState = setDefaultVariables(fromJS(testForm));
+        expect(nextPage(initialState).get('currentPage')).to.equal(1);
+    });
+
+    it('reduces the page number', () => {
+        const initialState = setDefaultVariables(fromJS(testForm));
+        expect(previousPage(nextPage(initialState)).get('currentPage')).to.equal(0);
+    });
+
+    it('sets the page number', () => {
+        const initialState = setDefaultVariables(fromJS(testForm));
+        expect(setPage(initialState, 99).get('currentPage')).to.equal(99);
+    });
+
+    it('doesn\'t let the page number be advanced past the last page', () => {
+        const initialState = setDefaultVariables(fromJS(testForm));
+        expect(setPage(initialState, 99).get('currentPage')).to.equal(99);
+    })
 });
