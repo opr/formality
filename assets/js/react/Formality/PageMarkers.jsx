@@ -10,8 +10,10 @@ class PageMarkers extends React.Component {
         super();
         let pageMarkers = [];
 
-        for (let i = 0; i < props.numberOfPages-1; i++) {
-            pageMarkers.push(<div onClick={() => props.setPage(i)} className={'page-markers__marker'} key={'page-markers__marker__' + i}></div>)
+        for (let i = 0; i < props.numberOfPages - 1; i++) {
+            pageMarkers.push(<div onClick={() => props.setPage(i)}
+                                  className={'page-markers__marker' + ((props.currentPage === i) ? ' --active' : '')}
+                                  key={'page-markers__marker__' + i}></div>)
         }
         this.state = {...props, pageMarkers: pageMarkers};
     }
@@ -27,6 +29,7 @@ class PageMarkers extends React.Component {
 
 export default connect(state => {
     return {
-        numberOfPages: (state.get('pages', List([])).count()) + 1
+        numberOfPages: (state.get('pages', List([])).count()) + 1,
+        currentPage: state.get('currentPage')
     }
 }, actionCreators)(PageMarkers);

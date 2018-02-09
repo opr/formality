@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "65dec126cee0fd874274"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e4dc84e976a00016e482"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -806,7 +806,88 @@ executePageFunctions();
 
 /***/ }),
 
-/***/ "./assets/js/react/SuperForm/FormPage.jsx":
+/***/ "./assets/js/react/Formality/FormControls.jsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
+
+var _actions = __webpack_require__("./assets/js/react/Formality/Logic/actions.js");
+
+var actionCreators = _interopRequireWildcard(_actions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FormControls = function (_React$Component) {
+    _inherits(FormControls, _React$Component);
+
+    function FormControls(props) {
+        _classCallCheck(this, FormControls);
+
+        var _this = _possibleConstructorReturn(this, (FormControls.__proto__ || Object.getPrototypeOf(FormControls)).call(this));
+
+        _this.state = _extends({}, props);
+        return _this;
+    }
+
+    _createClass(FormControls, [{
+        key: 'render',
+        value: function render() {
+            var prevButton = this.props.firstPage ? null : _react2.default.createElement(
+                'button',
+                { onClick: this.props.previousPage },
+                'Previous'
+            ),
+                nextButton = this.props.lastPage ? null : _react2.default.createElement(
+                'button',
+                { onClick: this.props.nextPage },
+                'Next'
+            );
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'form-controls' },
+                prevButton,
+                nextButton
+            );
+        }
+    }]);
+
+    return FormControls;
+}(_react2.default.Component);
+
+exports.default = (0, _reactRedux.connect)(function (state) {
+    return {
+        lastPage: state.get('pages').count() - 1 === state.get('currentPage'),
+        firstPage: state.get('currentPage') === 0
+    };
+}, actionCreators)(FormControls);
+
+/***/ }),
+
+/***/ "./assets/js/react/Formality/FormPage.jsx":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -851,8 +932,12 @@ var FormPage = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                null,
-                this.props.name
+                { className: 'form-page' },
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    this.props.name
+                )
             );
         }
     }]);
@@ -870,7 +955,115 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(FormPage);
 
 /***/ }),
 
-/***/ "./assets/js/react/SuperForm/Logic/Logic.js":
+/***/ "./assets/js/react/Formality/Formality.jsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _formConfig = __webpack_require__("./assets/js/react/Formality/Logic/formConfig.js");
+
+var _Logic = __webpack_require__("./assets/js/react/Formality/Logic/Logic.js");
+
+var _redux = __webpack_require__("./node_modules/redux/es/index.js");
+
+var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
+
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+
+var _Reducer = __webpack_require__("./assets/js/react/Formality/Logic/Reducer.js");
+
+var _Reducer2 = _interopRequireDefault(_Reducer);
+
+var _FormPage = __webpack_require__("./assets/js/react/Formality/FormPage.jsx");
+
+var _FormPage2 = _interopRequireDefault(_FormPage);
+
+var _PageMarkers = __webpack_require__("./assets/js/react/Formality/PageMarkers.jsx");
+
+var _PageMarkers2 = _interopRequireDefault(_PageMarkers);
+
+var _FormControls = __webpack_require__("./assets/js/react/Formality/FormControls.jsx");
+
+var _FormControls2 = _interopRequireDefault(_FormControls);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Formality = function (_React$Component) {
+    _inherits(Formality, _React$Component);
+
+    function Formality(props) {
+        _classCallCheck(this, Formality);
+
+        var _this = _possibleConstructorReturn(this, (Formality.__proto__ || Object.getPrototypeOf(Formality)).call(this));
+
+        var reducerOptions = function reducerOptions() {};
+        if (process.env.NODE_ENV !== 'production') {
+            var extension = window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function () {};
+            reducerOptions = window.__REDUX_DEVTOOLS_EXTENSION__ && extension;
+        }
+        _this.store = (0, _redux.createStore)(_Reducer2.default, null, reducerOptions);
+        _this.store.dispatch({
+            type: 'SET_STATE',
+            payload: (0, _immutable.fromJS)(props.formConfig)
+        });
+        _this.store.dispatch({
+            type: 'SET_DEFAULTS'
+        });
+        _this.state = _extends({}, props, (0, _formConfig.getFormAttributes)(props.formConfig));
+        return _this;
+    }
+
+    _createClass(Formality, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _reactRedux.Provider,
+                { store: this.store },
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'form',
+                        { onSubmit: function onSubmit(e) {
+                                return e.preventDefault();
+                            }, action: this.state.action, method: this.state.method },
+                        _react2.default.createElement(_PageMarkers2.default, null),
+                        _react2.default.createElement(_FormPage2.default, null),
+                        _react2.default.createElement(_FormControls2.default, null)
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Formality;
+}(_react2.default.Component);
+
+exports.default = Formality;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
+
+/***/ }),
+
+/***/ "./assets/js/react/Formality/Logic/Logic.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -907,7 +1100,7 @@ function setPage(state, page) {
 
 /***/ }),
 
-/***/ "./assets/js/react/SuperForm/Logic/Reducer.js":
+/***/ "./assets/js/react/Formality/Logic/Reducer.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -918,7 +1111,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = reducer;
 
-var _Logic = __webpack_require__("./assets/js/react/SuperForm/Logic/Logic.js");
+var _Logic = __webpack_require__("./assets/js/react/Formality/Logic/Logic.js");
 
 var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
 
@@ -943,7 +1136,7 @@ function reducer() {
 
 /***/ }),
 
-/***/ "./assets/js/react/SuperForm/Logic/actions.js":
+/***/ "./assets/js/react/Formality/Logic/actions.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -953,6 +1146,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.setPage = setPage;
+exports.nextPage = nextPage;
+exports.previousPage = previousPage;
 function setPage(page) {
     return {
         type: 'SET_PAGE',
@@ -960,9 +1155,20 @@ function setPage(page) {
     };
 }
 
+function nextPage() {
+    return {
+        type: 'NEXT_PAGE'
+    };
+}
+function previousPage() {
+    return {
+        type: 'PREVIOUS_PAGE'
+    };
+}
+
 /***/ }),
 
-/***/ "./assets/js/react/SuperForm/Logic/formConfig.js":
+/***/ "./assets/js/react/Formality/Logic/formConfig.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -986,7 +1192,53 @@ function getFormAttributes() {
 
 /***/ }),
 
-/***/ "./assets/js/react/SuperForm/PageMarkers.jsx":
+/***/ "./assets/js/react/Formality/Logic/testForm.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var testForm = exports.testForm = {
+    formName: 'testForm',
+    formEndpoint: '/testEndpoint',
+    formMethod: 'post',
+    formAction: '/testAction',
+    pages: [{
+        name: 'Basic Info',
+        sections: [{
+            name: 'Personal Details',
+            elements: [{
+                type: 'text',
+                name: 'title'
+            }]
+        }]
+    }, {
+        name: 'Payment Details',
+        sections: [{
+            name: 'Credit Card',
+            elements: [{
+                type: 'text',
+                name: 'card-type'
+            }]
+        }]
+    }, {
+        name: 'Contat Details',
+        sections: [{
+            name: 'Home Address',
+            elements: [{
+                type: 'text',
+                name: 'house-number'
+            }]
+        }]
+    }]
+};
+
+/***/ }),
+
+/***/ "./assets/js/react/Formality/PageMarkers.jsx":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1008,7 +1260,7 @@ var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
 var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
 
-var _actions = __webpack_require__("./assets/js/react/SuperForm/Logic/actions.js");
+var _actions = __webpack_require__("./assets/js/react/Formality/Logic/actions.js");
 
 var actionCreators = _interopRequireWildcard(_actions);
 
@@ -1035,7 +1287,9 @@ var PageMarkers = function (_React$Component) {
         var _loop = function _loop(i) {
             pageMarkers.push(_react2.default.createElement('div', { onClick: function onClick() {
                     return props.setPage(i);
-                }, className: 'page-markers__marker', key: 'page-markers__marker__' + i }));
+                },
+                className: 'page-markers__marker' + (props.currentPage === i ? ' --active' : ''),
+                key: 'page-markers__marker__' + i }));
         };
 
         for (var i = 0; i < props.numberOfPages - 1; i++) {
@@ -1061,110 +1315,10 @@ var PageMarkers = function (_React$Component) {
 
 exports.default = (0, _reactRedux.connect)(function (state) {
     return {
-        numberOfPages: state.get('pages', (0, _immutable.List)([])).count() + 1
+        numberOfPages: state.get('pages', (0, _immutable.List)([])).count() + 1,
+        currentPage: state.get('currentPage')
     };
 }, actionCreators)(PageMarkers);
-
-/***/ }),
-
-/***/ "./assets/js/react/SuperForm/SuperForm.jsx":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__("./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _formConfig = __webpack_require__("./assets/js/react/SuperForm/Logic/formConfig.js");
-
-var _Logic = __webpack_require__("./assets/js/react/SuperForm/Logic/Logic.js");
-
-var _redux = __webpack_require__("./node_modules/redux/es/index.js");
-
-var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
-
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
-
-var _Reducer = __webpack_require__("./assets/js/react/SuperForm/Logic/Reducer.js");
-
-var _Reducer2 = _interopRequireDefault(_Reducer);
-
-var _FormPage = __webpack_require__("./assets/js/react/SuperForm/FormPage.jsx");
-
-var _FormPage2 = _interopRequireDefault(_FormPage);
-
-var _PageMarkers = __webpack_require__("./assets/js/react/SuperForm/PageMarkers.jsx");
-
-var _PageMarkers2 = _interopRequireDefault(_PageMarkers);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var SuperForm = function (_React$Component) {
-    _inherits(SuperForm, _React$Component);
-
-    function SuperForm(props) {
-        _classCallCheck(this, SuperForm);
-
-        var _this = _possibleConstructorReturn(this, (SuperForm.__proto__ || Object.getPrototypeOf(SuperForm)).call(this));
-
-        var reducerOptions = function reducerOptions() {};
-        if (process.env.NODE_ENV !== 'production') {
-            var extension = window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function () {};
-            reducerOptions = window.__REDUX_DEVTOOLS_EXTENSION__ && extension;
-        }
-        _this.store = (0, _redux.createStore)(_Reducer2.default, null, reducerOptions);
-        _this.store.dispatch({
-            type: 'SET_STATE',
-            payload: (0, _immutable.fromJS)(props.formConfig)
-        });
-        _this.store.dispatch({
-            type: 'SET_DEFAULTS'
-        });
-        _this.state = _extends({}, props, (0, _formConfig.getFormAttributes)(props.formConfig));
-        return _this;
-    }
-
-    _createClass(SuperForm, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                _reactRedux.Provider,
-                { store: this.store },
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'form',
-                        { action: this.state.action, method: this.state.method },
-                        _react2.default.createElement(_PageMarkers2.default, null),
-                        _react2.default.createElement(_FormPage2.default, null)
-                    )
-                )
-            );
-        }
-    }]);
-
-    return SuperForm;
-}(_react2.default.Component);
-
-exports.default = SuperForm;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -1184,9 +1338,11 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactHotLoader = __webpack_require__("./node_modules/react-hot-loader/lib/index.js");
 
-var _SuperForm = __webpack_require__("./assets/js/react/SuperForm/SuperForm.jsx");
+var _Formality = __webpack_require__("./assets/js/react/Formality/Formality.jsx");
 
-var _SuperForm2 = _interopRequireDefault(_SuperForm);
+var _Formality2 = _interopRequireDefault(_Formality);
+
+var _testForm = __webpack_require__("./assets/js/react/Formality/Logic/testForm.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1204,31 +1360,7 @@ var render = function render(Component, element, name) {
     ), element);
 };
 
-var apps = [{ element: document.getElementById('super-form'), component: _react2.default.createElement(_SuperForm2.default, { formConfig: {
-            formName: 'testForm',
-            formEndpoint: '/testEndpoint',
-            formMethod: 'post',
-            formAction: '/testAction',
-            pages: [{
-                name: 'Basic Info',
-                sections: [{
-                    name: 'Personal Details',
-                    elements: [{
-                        type: 'select',
-                        name: 'title'
-                    }]
-                }]
-            }, {
-                name: 'Payment Details',
-                sections: [{
-                    name: 'Credit Card',
-                    elements: [{
-                        type: 'select',
-                        name: 'title'
-                    }]
-                }]
-            }]
-        } }), file: './SuperForm/SuperForm', name: 'SuperForm' }];
+var apps = [{ element: document.getElementById('formality-container'), component: _react2.default.createElement(_Formality2.default, { formConfig: _testForm.testForm }), file: './Formality/Formality', name: 'Formality' }];
 
 var _iteratorNormalCompletion = true;
 var _didIteratorError = false;

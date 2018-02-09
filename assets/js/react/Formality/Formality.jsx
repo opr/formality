@@ -7,6 +7,7 @@ import {fromJS} from 'immutable';
 import reducer from './Logic/Reducer';
 import FormPage from './FormPage';
 import PageMarkers from './PageMarkers';
+import FormControls from "./FormControls";
 
 export default class Formality extends React.Component {
 
@@ -33,9 +34,10 @@ export default class Formality extends React.Component {
         return (
             <Provider store={this.store}>
                 <div>
-                    <form action={this.state.action} method={this.state.method}>
+                    <form onSubmit={e => e.preventDefault()} action={this.state.action} method={this.state.method}>
                         <PageMarkers />
                         <FormPage />
+                        <FormControls />
                     </form>
                 </div>
             </Provider>

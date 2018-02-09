@@ -11,7 +11,7 @@ export const testForm = {
                     name: 'Personal Details',
                     elements: [
                         {
-                            type: 'select',
+                            type: 'text',
                             name: 'title'
                         }
                     ]
@@ -25,8 +25,22 @@ export const testForm = {
                     name: 'Credit Card',
                     elements: [
                         {
-                            type: 'select',
-                            name: 'title'
+                            type: 'text',
+                            name: 'card-type'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: 'Contat Details',
+            sections: [
+                {
+                    name: 'Home Address',
+                    elements: [
+                        {
+                            type: 'text',
+                            name: 'house-number'
                         }
                     ]
                 }

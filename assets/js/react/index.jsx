@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {AppContainer} from 'react-hot-loader'
 import Formality from './Formality/Formality';
+import {testForm} from "./Formality/Logic/testForm";
 
 const getRenderFunc = app => {
   return () => {
@@ -19,43 +20,7 @@ const render = (Component, element, name) => {
 };
 
 let apps = [
-    {element: document.getElementById('formality-container'), component: <Formality formConfig={{
-            formName: 'testForm',
-            formEndpoint: '/testEndpoint',
-            formMethod: 'post',
-            formAction: '/testAction',
-            pages: [
-                {
-                    name: 'Basic Info',
-                    sections: [
-                        {
-                            name: 'Personal Details',
-                            elements: [
-                                {
-                                    type: 'select',
-                                    name: 'title'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    name: 'Payment Details',
-                    sections: [
-                        {
-                            name: 'Credit Card',
-                            elements: [
-                                {
-                                    type: 'select',
-                                    name: 'title'
-                                }
-                            ]
-                        }
-                    ]
-                }
-
-            ]
-        }}/>, file: './Formality/Formality', name: 'Formality'}
+    {element: document.getElementById('formality-container'), component: <Formality formConfig={testForm}/>, file: './Formality/Formality', name: 'Formality'}
 ];
 
 for (let a of apps) {
