@@ -15,5 +15,6 @@ export function previousPage(state) {
 }
 
 export function setPage(state, page) {
+    page = Math.max(0, Math.min(page, state.get('pages').count()-1));
     return state.set('currentPage', page);
 }
