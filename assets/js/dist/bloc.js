@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8581546a37adfd85ab0f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "65dec126cee0fd874274"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -901,6 +901,7 @@ function previousPage(state) {
 }
 
 function setPage(state, page) {
+    page = Math.max(0, Math.min(page, state.get('pages').count() - 1));
     return state.set('currentPage', page);
 }
 
@@ -933,11 +934,30 @@ function reducer() {
         case 'NEXT_PAGE':
             return (0, _Logic.nextPage)(state);
         case 'PREVIOUS_PAGE':
-            return peviousPage(state);
+            return (0, _Logic.previousPage)(state);
         case 'SET_PAGE':
-            return (0, _Logic.setPage)(state);
+            return (0, _Logic.setPage)(state, action.page);
     }
     return state;
+}
+
+/***/ }),
+
+/***/ "./assets/js/react/SuperForm/Logic/actions.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.setPage = setPage;
+function setPage(page) {
+    return {
+        type: 'SET_PAGE',
+        page: page
+    };
 }
 
 /***/ }),
@@ -988,6 +1008,12 @@ var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
 var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
 
+var _actions = __webpack_require__("./assets/js/react/SuperForm/Logic/actions.js");
+
+var actionCreators = _interopRequireWildcard(_actions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1006,8 +1032,14 @@ var PageMarkers = function (_React$Component) {
 
         var pageMarkers = [];
 
+        var _loop = function _loop(i) {
+            pageMarkers.push(_react2.default.createElement('div', { onClick: function onClick() {
+                    return props.setPage(i);
+                }, className: 'page-markers__marker', key: 'page-markers__marker__' + i }));
+        };
+
         for (var i = 0; i < props.numberOfPages - 1; i++) {
-            pageMarkers.push(_react2.default.createElement('div', { className: 'page-markers__marker', key: 'page-markers__marker__' + i }));
+            _loop(i);
         }
         _this.state = _extends({}, props, { pageMarkers: pageMarkers });
         return _this;
@@ -1031,7 +1063,7 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     return {
         numberOfPages: state.get('pages', (0, _immutable.List)([])).count() + 1
     };
-})(PageMarkers);
+}, actionCreators)(PageMarkers);
 
 /***/ }),
 

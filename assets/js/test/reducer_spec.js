@@ -1,5 +1,6 @@
 import {List, Map, fromJS} from 'immutable';
 import {expect} from 'chai';
+import {testForm} from "../react/SuperForm/Logic/testForm";
 import reducer from '../react/SuperForm/Logic/Reducer';
 
 describe('reducer', () => {
@@ -18,6 +19,16 @@ describe('reducer', () => {
             formName: 'My Form',
             formMethod: 'post'
         }));
+    });
+
+    it('handles SET_PAGE', () => {
+        const initialState = fromJS(testForm);
+        const action = {
+          type: 'SET_PAGE',
+          page: 1
+        };
+        const nextState = reducer(initialState, action);
+        expect(nextState.get('currentPage')).to.equal(1);
     });
 
 

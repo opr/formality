@@ -10,9 +10,9 @@ export default function reducer(state = Map(), action) {
         case 'NEXT_PAGE':
             return nextPage(state);
         case 'PREVIOUS_PAGE':
-            return peviousPage(state);
+            return previousPage(state);
         case 'SET_PAGE':
-            return setPage(state);
+            return setPage(state, action.page);
     }
     return state;
 }

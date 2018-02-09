@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "run": "webpack"
+    "run": "webpack",
+    "test": "mocha --require babel-core/register ./assets/js/test/test_helper.js ./assets/js/test"
   },
   "repository": {
     "type": "git",
