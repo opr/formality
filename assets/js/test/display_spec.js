@@ -1,5 +1,5 @@
-import {getFormAttributes} from "../react/SuperForm/Logic/formConfig";
-import {testForm} from "../react/SuperForm/Logic/testForm";
+import {getFormAttributes} from "../react/Formality/Logic/formConfig";
+import {testForm} from "../react/Formality/Logic/testForm";
 import {expect} from 'chai';
 
 describe('display logic', () => {

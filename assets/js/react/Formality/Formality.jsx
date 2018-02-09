@@ -8,7 +8,7 @@ import reducer from './Logic/Reducer';
 import FormPage from './FormPage';
 import PageMarkers from './PageMarkers';
 
-export default class SuperForm extends React.Component {
+export default class Formality extends React.Component {
 
     constructor(props) {
         super();

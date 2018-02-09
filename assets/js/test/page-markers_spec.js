@@ -1,12 +1,12 @@
 import {List, Map, fromJS} from 'immutable';
 import {expect} from 'chai';
 import React from 'react';
-import {testForm} from "../react/SuperForm/Logic/testForm";
+import {testForm} from "../react/Formality/Logic/testForm";
 import {mount} from 'enzyme';
-import PageMarkers from '../react/SuperForm/PageMarkers';
+import PageMarkers from '../react/Formality/PageMarkers';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import reducer from '../react/SuperForm/Logic/Reducer';
+import reducer from '../react/Formality/Logic/Reducer';
 
 describe('PageMarkers', () => {
     const initialState = fromJS(testForm),

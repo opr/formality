@@ -1,7 +1,7 @@
 import {List, Map, fromJS} from 'immutable';
 import {expect} from 'chai';
-import {testForm} from "../react/SuperForm/Logic/testForm";
-import reducer from '../react/SuperForm/Logic/Reducer';
+import {testForm} from "../react/Formality/Logic/testForm";
+import reducer from '../react/Formality/Logic/Reducer';
 
 describe('reducer', () => {
 

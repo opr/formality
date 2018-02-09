@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {AppContainer} from 'react-hot-loader'
-import SuperForm from './SuperForm/SuperForm';
+import Formality from './Formality/Formality';
 
 const getRenderFunc = app => {
   return () => {
@@ -19,7 +19,7 @@ const render = (Component, element, name) => {
 };
 
 let apps = [
-    {element: document.getElementById('super-form'), component: <SuperForm formConfig={{
+    {element: document.getElementById('formality-container'), component: <Formality formConfig={{
             formName: 'testForm',
             formEndpoint: '/testEndpoint',
             formMethod: 'post',
@@ -55,7 +55,7 @@ let apps = [
                 }
 
             ]
-        }}/>, file: './SuperForm/SuperForm', name: 'SuperForm'}
+        }}/>, file: './Formality/Formality', name: 'Formality'}
 ];
 
 for (let a of apps) {

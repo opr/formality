@@ -1,7 +1,7 @@
 import {List, Map, fromJS} from 'immutable';
 import {expect} from 'chai';
-import {testForm} from "../react/SuperForm/Logic/testForm";
-import {updateValue, nextPage, previousPage, setPage, setDefaultVariables} from "../react/SuperForm/Logic/Logic";
+import {testForm} from "../react/Formality/Logic/testForm";
+import {updateValue, nextPage, previousPage, setPage, setDefaultVariables} from "../react/Formality/Logic/Logic";
 
 describe('Form logic', () => {
 
