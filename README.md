@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/opr/formality.svg?branch=master)](https://travis-ci.org/opr/formality)
+
 # Installation
 
 Type `yarn install` on the command line and let it install. If you're not part of the yarn master race feel free to type `npm install`.
