@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {List} from 'immutable';
 import * as actionCreators from './Logic/actions';
 
 class FormControls extends React.Component {
@@ -10,12 +11,13 @@ class FormControls extends React.Component {
     }
 
     render() {
-        const prevButton = this.props.firstPage ? null : (<button onClick={this.props.previousPage}>Previous</button>),
-            nextButton = this.props.lastPage ? null : (<button onClick={this.props.nextPage}>Next</button>);
+        const prevButton = this.props.firstPage ? null : (this.props.lastPage ? null : (<button key={'previous'} onClick={this.props.previousPage}>Previous</button>)),
+            nextButton = this.props.lastPage ? null : (<button key={'next'} onClick={this.props.nextPage}>Next</button>),
+            submitButton = this.props.lastPage ? (<button key={'submit'}>Submit</button>) : null;
 
         return (
             <div className={'form-controls'}>
-                {prevButton}{nextButton}
+                {prevButton}{nextButton}{submitButton}
             </div>
         );
     }
@@ -23,7 +25,7 @@ class FormControls extends React.Component {
 
 export default connect(state => {
     return {
-        lastPage: state.get('pages').count() - 1 === state.get('currentPage'),
+        lastPage: state.get('pages', List()).count() - 1 === state.get('currentPage'),
         firstPage: state.get('currentPage') === 0
     }
 }, actionCreators)(FormControls);

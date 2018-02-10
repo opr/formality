@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e4dc84e976a00016e482"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "73cb311306408e3be3ee"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -826,6 +826,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+
 var _actions = __webpack_require__("./assets/js/react/Formality/Logic/actions.js");
 
 var actionCreators = _interopRequireWildcard(_actions);
@@ -855,22 +857,28 @@ var FormControls = function (_React$Component) {
     _createClass(FormControls, [{
         key: 'render',
         value: function render() {
-            var prevButton = this.props.firstPage ? null : _react2.default.createElement(
+            var prevButton = this.props.firstPage ? null : this.props.lastPage ? null : _react2.default.createElement(
                 'button',
-                { onClick: this.props.previousPage },
+                { key: 'previous', onClick: this.props.previousPage },
                 'Previous'
             ),
                 nextButton = this.props.lastPage ? null : _react2.default.createElement(
                 'button',
-                { onClick: this.props.nextPage },
+                { key: 'next', onClick: this.props.nextPage },
                 'Next'
-            );
+            ),
+                submitButton = this.props.lastPage ? _react2.default.createElement(
+                'button',
+                { key: 'submit' },
+                'Submit'
+            ) : null;
 
             return _react2.default.createElement(
                 'div',
                 { className: 'form-controls' },
                 prevButton,
-                nextButton
+                nextButton,
+                submitButton
             );
         }
     }]);
@@ -880,7 +888,7 @@ var FormControls = function (_React$Component) {
 
 exports.default = (0, _reactRedux.connect)(function (state) {
     return {
-        lastPage: state.get('pages').count() - 1 === state.get('currentPage'),
+        lastPage: state.get('pages', (0, _immutable.List)()).count() - 1 === state.get('currentPage'),
         firstPage: state.get('currentPage') === 0
     };
 }, actionCreators)(FormControls);
