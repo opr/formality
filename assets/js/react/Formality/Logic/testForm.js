@@ -29,6 +29,38 @@ export const testForm = {
                             name: 'card-type'
                         }
                     ]
+                },
+                {
+                    name: 'Bank Account',
+                    elements: [
+                        {
+                            type: 'text',
+                            name: 'bank-name'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: 'Education Details',
+            sections: [
+                {
+                    name: 'School',
+                    elements: [
+                        {
+                            type: 'text',
+                            name: 'school-name'
+                        }
+                    ]
+                },
+                {
+                    name: 'University',
+                    elements: [
+                        {
+                            type: 'text',
+                            name: 'university-name'
+                        }
+                    ]
                 }
             ]
         },

@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "73cb311306408e3be3ee"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ece0322d3ea72110aefe"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -915,6 +915,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -938,13 +940,53 @@ var FormPage = function (_React$Component) {
     _createClass(FormPage, [{
         key: 'render',
         value: function render() {
+
+            var sections = [];
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.props.sections[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var s = _step.value;
+
+                    sections.push(_react2.default.createElement(
+                        'fieldset',
+                        { key: s.get('name'), className: 'form-page__fieldset' },
+                        _react2.default.createElement(
+                            'legend',
+                            null,
+                            s.get('name')
+                        )
+                    ));
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
             return _react2.default.createElement(
                 'div',
-                { className: 'form-page' },
+                { key: 'form-page', className: 'form-page' },
                 _react2.default.createElement(
                     'h2',
                     null,
                     this.props.name
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'form-page__page-container' },
+                    sections
                 )
             );
         }
@@ -955,7 +997,8 @@ var FormPage = function (_React$Component) {
 
 function mapStateToProps(state) {
     return {
-        name: state.getIn(['pages', state.get('currentPage'), 'name'])
+        name: state.getIn(['pages', state.get('currentPage'), 'name'], ''),
+        sections: state.getIn(['pages', state.get('currentPage'), 'sections'], (0, _immutable.List)())
     };
 }
 
@@ -1231,6 +1274,27 @@ var testForm = exports.testForm = {
                 type: 'text',
                 name: 'card-type'
             }]
+        }, {
+            name: 'Bank Account',
+            elements: [{
+                type: 'text',
+                name: 'bank-name'
+            }]
+        }]
+    }, {
+        name: 'Education Details',
+        sections: [{
+            name: 'School',
+            elements: [{
+                type: 'text',
+                name: 'school-name'
+            }]
+        }, {
+            name: 'University',
+            elements: [{
+                type: 'text',
+                name: 'university-name'
+            }]
         }]
     }, {
         name: 'Contat Details',
@@ -1290,30 +1354,39 @@ var PageMarkers = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (PageMarkers.__proto__ || Object.getPrototypeOf(PageMarkers)).call(this));
 
-        var pageMarkers = [];
-
-        var _loop = function _loop(i) {
-            pageMarkers.push(_react2.default.createElement('div', { onClick: function onClick() {
-                    return props.setPage(i);
-                },
-                className: 'page-markers__marker' + (props.currentPage === i ? ' --active' : ''),
-                key: 'page-markers__marker__' + i }));
-        };
-
-        for (var i = 0; i < props.numberOfPages - 1; i++) {
-            _loop(i);
-        }
-        _this.state = _extends({}, props, { pageMarkers: pageMarkers });
+        _this.state = _extends({}, props);
         return _this;
     }
 
     _createClass(PageMarkers, [{
+        key: 'generatePageMarkers',
+        value: function generatePageMarkers() {
+            var _this2 = this;
+
+            var pageMarkers = [];
+
+            var _loop = function _loop(i) {
+                pageMarkers.push(_react2.default.createElement('div', { onClick: function onClick() {
+                        return _this2.props.setPage(i);
+                    },
+                    className: 'page-markers__marker' + (_this2.props.currentPage === i ? ' --active' : ''),
+                    key: 'page-markers__marker__' + i }));
+            };
+
+            for (var i = 0; i < this.props.numberOfPages - 1; i++) {
+                _loop(i);
+            }
+
+            return pageMarkers;
+        }
+    }, {
         key: 'render',
         value: function render() {
+
             return _react2.default.createElement(
                 'div',
                 { className: 'page-markers' },
-                this.state.pageMarkers
+                this.generatePageMarkers()
             );
         }
     }]);
