@@ -9,7 +9,7 @@ export const testForm = {
             sections: [
                 {
                     name: 'Personal Details',
-                    elements: [
+                    fields: [
                         {
                             type: 'text',
                             name: 'title'
@@ -23,7 +23,7 @@ export const testForm = {
             sections: [
                 {
                     name: 'Credit Card',
-                    elements: [
+                    fields: [
                         {
                             type: 'text',
                             name: 'card-type'
@@ -32,7 +32,7 @@ export const testForm = {
                 },
                 {
                     name: 'Bank Account',
-                    elements: [
+                    fields: [
                         {
                             type: 'text',
                             name: 'bank-name'
@@ -46,7 +46,7 @@ export const testForm = {
             sections: [
                 {
                     name: 'School',
-                    elements: [
+                    fields: [
                         {
                             type: 'text',
                             name: 'school-name'
@@ -55,7 +55,7 @@ export const testForm = {
                 },
                 {
                     name: 'University',
-                    elements: [
+                    fields: [
                         {
                             type: 'text',
                             name: 'university-name'
@@ -69,7 +69,7 @@ export const testForm = {
             sections: [
                 {
                     name: 'Home Address',
-                    elements: [
+                    fields: [
                         {
                             type: 'text',
                             name: 'house-number'

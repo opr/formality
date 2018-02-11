@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ece0322d3ea72110aefe"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a636ff572b7ca453acad"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -806,6 +806,54 @@ executePageFunctions();
 
 /***/ }),
 
+/***/ "./assets/js/react/Formality/FieldFactory.jsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _TextField = __webpack_require__("./assets/js/react/Formality/TextField.jsx");
+
+var _TextField2 = _interopRequireDefault(_TextField);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FieldFactory = function () {
+    function FieldFactory() {
+        _classCallCheck(this, FieldFactory);
+    }
+
+    _createClass(FieldFactory, null, [{
+        key: 'makeField',
+        value: function makeField(field) {
+            switch (field.get('type')) {
+                case 'text':
+                    return _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name') });
+                default:
+                    return null;
+            }
+        }
+    }]);
+
+    return FieldFactory;
+}();
+
+exports.default = FieldFactory;
+
+/***/ }),
+
 /***/ "./assets/js/react/Formality/FormControls.jsx":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -917,6 +965,10 @@ var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
 var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
 
+var _FormSection = __webpack_require__("./assets/js/react/Formality/FormSection.jsx");
+
+var _FormSection2 = _interopRequireDefault(_FormSection);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -941,7 +993,8 @@ var FormPage = function (_React$Component) {
         key: 'render',
         value: function render() {
 
-            var sections = [];
+            var sections = [],
+                counter = 0;
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
@@ -957,6 +1010,11 @@ var FormPage = function (_React$Component) {
                             'legend',
                             null,
                             s.get('name')
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'form-page__section' },
+                            _react2.default.createElement(_FormSection2.default, { section: counter++ })
                         )
                     ));
                 }
@@ -1003,6 +1061,101 @@ function mapStateToProps(state) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(FormPage);
+
+/***/ }),
+
+/***/ "./assets/js/react/Formality/FormSection.jsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
+
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+
+var _FieldFactory = __webpack_require__("./assets/js/react/Formality/FieldFactory.jsx");
+
+var _FieldFactory2 = _interopRequireDefault(_FieldFactory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FormSection = function (_React$Component) {
+    _inherits(FormSection, _React$Component);
+
+    function FormSection(props) {
+        _classCallCheck(this, FormSection);
+
+        var _this = _possibleConstructorReturn(this, (FormSection.__proto__ || Object.getPrototypeOf(FormSection)).call(this));
+
+        _this.state = _extends({}, props);
+        return _this;
+    }
+
+    _createClass(FormSection, [{
+        key: 'render',
+        value: function render() {
+            var fields = [];
+
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.props.fields.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var f = _step.value;
+
+                    fields.push(_FieldFactory2.default.makeField(f));
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'form-section' },
+                fields
+            );
+        }
+    }]);
+
+    return FormSection;
+}(_react2.default.Component);
+
+exports.default = (0, _reactRedux.connect)(function (state, ownProps) {
+    return {
+        fields: state.getIn(['pages', state.get('currentPage'), 'sections', ownProps.section, 'fields'], (0, _immutable.List)())
+    };
+})(FormSection);
 
 /***/ }),
 
@@ -1123,17 +1276,16 @@ exports.default = Formality;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.updateValue = updateValue;
 exports.setDefaultVariables = setDefaultVariables;
 exports.nextPage = nextPage;
 exports.previousPage = previousPage;
 exports.setPage = setPage;
-function updateValue(state, key, value) {
-    return state.setIn([key], value);
-}
+exports.setValue = setValue;
+
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
 
 function setDefaultVariables(state) {
-    return state.set('currentPage', state.get('currentPage', 0));
+    return state.set('currentPage', state.get('currentPage', 0)).set('variables', state.get('variables', (0, _immutable.Map)()));
 }
 
 function nextPage(state) {
@@ -1145,8 +1297,11 @@ function previousPage(state) {
 }
 
 function setPage(state, page) {
-    page = Math.max(0, Math.min(page, state.get('pages').count() - 1));
-    return state.set('currentPage', page);
+    return state.set('currentPage', Math.max(0, Math.min(page, state.get('pages').count() - 1)));
+}
+
+function setValue(state, key, value) {
+    return state.setIn(['variables', key], value);
 }
 
 /***/ }),
@@ -1181,6 +1336,8 @@ function reducer() {
             return (0, _Logic.previousPage)(state);
         case 'SET_PAGE':
             return (0, _Logic.setPage)(state, action.page);
+        case 'SET_VALUE':
+            return (0, _Logic.setValue)(state, action.key, action.value);
     }
     return state;
 }
@@ -1199,6 +1356,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.setPage = setPage;
 exports.nextPage = nextPage;
 exports.previousPage = previousPage;
+exports.setValue = setValue;
 function setPage(page) {
     return {
         type: 'SET_PAGE',
@@ -1214,6 +1372,14 @@ function nextPage() {
 function previousPage() {
     return {
         type: 'PREVIOUS_PAGE'
+    };
+}
+
+function setValue(key, value) {
+    return {
+        type: 'SET_VALUE',
+        key: key,
+        value: value
     };
 }
 
@@ -1261,7 +1427,7 @@ var testForm = exports.testForm = {
         name: 'Basic Info',
         sections: [{
             name: 'Personal Details',
-            elements: [{
+            fields: [{
                 type: 'text',
                 name: 'title'
             }]
@@ -1270,13 +1436,13 @@ var testForm = exports.testForm = {
         name: 'Payment Details',
         sections: [{
             name: 'Credit Card',
-            elements: [{
+            fields: [{
                 type: 'text',
                 name: 'card-type'
             }]
         }, {
             name: 'Bank Account',
-            elements: [{
+            fields: [{
                 type: 'text',
                 name: 'bank-name'
             }]
@@ -1285,13 +1451,13 @@ var testForm = exports.testForm = {
         name: 'Education Details',
         sections: [{
             name: 'School',
-            elements: [{
+            fields: [{
                 type: 'text',
                 name: 'school-name'
             }]
         }, {
             name: 'University',
-            elements: [{
+            fields: [{
                 type: 'text',
                 name: 'university-name'
             }]
@@ -1300,7 +1466,7 @@ var testForm = exports.testForm = {
         name: 'Contat Details',
         sections: [{
             name: 'Home Address',
-            elements: [{
+            fields: [{
                 type: 'text',
                 name: 'house-number'
             }]
@@ -1400,6 +1566,75 @@ exports.default = (0, _reactRedux.connect)(function (state) {
         currentPage: state.get('currentPage')
     };
 }, actionCreators)(PageMarkers);
+
+/***/ }),
+
+/***/ "./assets/js/react/Formality/TextField.jsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
+
+var _actions = __webpack_require__("./assets/js/react/Formality/Logic/actions.js");
+
+var actionCreators = _interopRequireWildcard(_actions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TextField = function (_React$Component) {
+    _inherits(TextField, _React$Component);
+
+    function TextField(props) {
+        _classCallCheck(this, TextField);
+
+        var _this = _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this));
+
+        _this.state = _extends({}, props);
+        return _this;
+    }
+
+    _createClass(TextField, [{
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement('input', { onChange: function onChange(e) {
+                    return _this2.props.setValue(_this2.props.name, e.target.value);
+                }, type: 'text', name: this.props.name });
+        }
+    }]);
+
+    return TextField;
+}(_react2.default.Component);
+
+exports.default = (0, _reactRedux.connect)(function (state, ownProps) {
+    return {
+        name: ownProps.name,
+        placeholder: ownProps.placeholder
+    };
+}, actionCreators)(TextField);
 
 /***/ }),
 

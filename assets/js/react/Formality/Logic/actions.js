@@ -15,3 +15,11 @@ export function previousPage() {
         type: 'PREVIOUS_PAGE'
     };
 }
+
+export function setValue(key, value) {
+    return {
+        type: 'SET_VALUE',
+        key,
+        value
+    };
+}

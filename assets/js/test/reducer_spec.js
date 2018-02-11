@@ -40,4 +40,19 @@ describe('reducer', () => {
         const nextState = reducer(initialState, action);
         expect(nextState.toJS()).to.include({currentPage: 0});
     });
+
+    it('handles SET_VALUE', () => {
+        const initialState = Map();
+        const action = {
+            type: 'SET_VALUE',
+            key: 'testValue',
+            value: 12345
+        };
+        const nextState = reducer(initialState, action);
+        expect(nextState).to.equal(Map({
+            variables: Map({
+                testValue: 12345
+            })
+        }));
+    })
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {List} from 'immutable';
+import FormSection from './FormSection';
 
 class FormPage extends React.Component {
 
@@ -11,9 +12,11 @@ class FormPage extends React.Component {
 
     render() {
 
-        let sections = [];
+        let sections = [],
+            counter = 0;
         for(let s of this.props.sections) {
-            sections.push(<fieldset key={s.get('name')} className={'form-page__fieldset'}><legend>{s.get('name')}</legend></fieldset>);
+            sections.push(<fieldset key={s.get('name')} className={'form-page__fieldset'}><legend>{s.get('name')}</legend>
+            <div className={'form-page__section'}><FormSection section={counter++} /></div></fieldset>);
         }
 
         return (

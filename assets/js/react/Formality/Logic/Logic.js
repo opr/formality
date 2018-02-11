@@ -1,9 +1,7 @@
-export function updateValue(state, key, value) {
-    return state.setIn([key], value);
-}
+import {Map} from 'immutable';
 
 export function setDefaultVariables(state) {
-    return state.set('currentPage', state.get('currentPage', 0));
+    return state.set('currentPage', state.get('currentPage', 0)).set('variables', state.get('variables', Map()));
 }
 
 export function nextPage(state) {
@@ -15,6 +13,9 @@ export function previousPage(state) {
 }
 
 export function setPage(state, page) {
-    page = Math.max(0, Math.min(page, state.get('pages').count()-1));
-    return state.set('currentPage', page);
+    return state.set('currentPage', Math.max(0, Math.min(page, state.get('pages').count()-1)));
+}
+
+export function setValue(state, key, value) {
+    return state.setIn(['variables', key], value);
 }
