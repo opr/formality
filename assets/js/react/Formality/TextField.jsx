@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import * as actionCreators from './Logic/actions';
+import ValidationLabel from './ValidationLabel';
 
 class TextField extends React.Component {
 
@@ -11,14 +12,18 @@ class TextField extends React.Component {
 
     render() {
         return (
-            <input onChange={e => this.props.setValue(this.props.name, e.target.value)} type={'text'} name={this.props.name}/>
+            <div className={'form-row'}>
+                <input onChange={e => this.props.setValue(this.props.name, e.target.value)} type={'text'}
+                       name={this.props.name}/>
+                <ValidationLabel />
+            </div>
         );
     }
 }
 
 export default connect((state, ownProps) => {
     return {
-       name: ownProps.name,
-       placeholder: ownProps.placeholder
+        name: ownProps.name,
+        placeholder: ownProps.placeholder
     };
 }, actionCreators)(TextField);
