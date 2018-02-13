@@ -7,13 +7,21 @@ class TextField extends React.Component {
 
     constructor(props) {
         super();
-        this.state = {...props};
+        this.state = {...props, value: props.value};
+    }
+
+    onChangeHandler(name, value) {
+        this.setState({
+            value: value
+        });
+        this.props.setValue(name, value);
     }
 
     render() {
         return (
             <div className={'form-row'}>
-                <input onChange={e => this.props.setValue(this.props.name, e.target.value)} type={'text'}
+                <input value={this.state.value} onChange={e => this.onChangeHandler(this.props.name, e.target.value)} type={'text'}
+                       placeholder={this.props.placeholder}
                        name={this.props.name}/>
                 <ValidationLabel />
             </div>
@@ -24,6 +32,7 @@ class TextField extends React.Component {
 export default connect((state, ownProps) => {
     return {
         name: ownProps.name,
+        value: state.getIn(['variables', ownProps.name], ''),
         placeholder: ownProps.placeholder
     };
 }, actionCreators)(TextField);

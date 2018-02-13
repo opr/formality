@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c1bbf573ce8685417304"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e14a9f8fbeda6d610557"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -1624,11 +1624,19 @@ var TextField = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this));
 
-        _this.state = _extends({}, props);
+        _this.state = _extends({}, props, { value: props.value });
         return _this;
     }
 
     _createClass(TextField, [{
+        key: 'onChangeHandler',
+        value: function onChangeHandler(name, value) {
+            this.setState({
+                value: value
+            });
+            this.props.setValue(name, value);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
@@ -1636,9 +1644,10 @@ var TextField = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'form-row' },
-                _react2.default.createElement('input', { onChange: function onChange(e) {
-                        return _this2.props.setValue(_this2.props.name, e.target.value);
+                _react2.default.createElement('input', { value: this.state.value, onChange: function onChange(e) {
+                        return _this2.onChangeHandler(_this2.props.name, e.target.value);
                     }, type: 'text',
+                    placeholder: this.props.placeholder,
                     name: this.props.name }),
                 _react2.default.createElement(_ValidationLabel2.default, null)
             );
@@ -1651,6 +1660,7 @@ var TextField = function (_React$Component) {
 exports.default = (0, _reactRedux.connect)(function (state, ownProps) {
     return {
         name: ownProps.name,
+        value: state.getIn(['variables', ownProps.name], ''),
         placeholder: ownProps.placeholder
     };
 }, actionCreators)(TextField);

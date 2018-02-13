@@ -1,0 +1,9 @@
+{
+  "all": true,
+  "sourceMap": false,
+  "include": [
+    "assets/js/react/**/*.js",
+    "assets/js/react/Formality/Logic/actions.js",
+    "assets/js/react/**/*.jsx"
+  ]
+}

@@ -1,13 +1,35 @@
 {
-  "env" : {
-    "production" : {
-      "presets": [ "env",
+  "env": {
+    "coverage": {
+      "presets": [
+        "env",
         [
-          "latest", {
-          "es2015": {
-            "modules": false
+          "latest",
+          {
+            "es2015": {
+              "modules": false
+            }
           }
-        }
+        ],
+        "react"
+      ],
+      "plugins": [
+        ["istanbul",
+        {
+        }],
+        "transform-object-rest-spread"
+      ]
+    },
+    "production": {
+      "presets": [
+        "env",
+        [
+          "latest",
+          {
+            "es2015": {
+              "modules": false
+            }
+          }
         ],
         "react"
       ],
@@ -15,14 +37,16 @@
         "transform-object-rest-spread"
       ]
     },
-    "development" : {
-      "presets": [ "env",
+    "development": {
+      "presets": [
+        "env",
         [
-          "latest", {
-          "es2015": {
-            "modules": false
+          "latest",
+          {
+            "es2015": {
+              "modules": false
+            }
           }
-        }
         ],
         "react"
       ],
