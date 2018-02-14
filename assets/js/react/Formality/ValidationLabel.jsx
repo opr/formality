@@ -9,14 +9,15 @@ class ValidationLabel extends React.Component {
     }
 
     render() {
-        return (
-        <div>error</div>
-        );
+        return this.props.show ? (
+        <div>{this.props.message}</div>
+        ) : null;
     }
 }
 
 export default connect((state, ownProps) => {
     return {
-
+        message: ownProps.message,
+        show: ownProps.show
     }
 })(ValidationLabel);

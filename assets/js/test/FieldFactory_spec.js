@@ -18,6 +18,15 @@ describe('Field Factory', () => {
     it('creates a text field', () => {
         const textField = (FieldFactory.makeField(Map({type: 'text', name: 'name'})));
         let formPage = mount(<Provider store={store}><TextField/></Provider>);
-        //expect(mount(<Provider store={store}></Provider>));
+        expect(formPage.find(TextField).length).to.equal(1);
+    });
+
+    it('has the correct default validation message when one is not supplied', () => {
+        const textField = mount(<Provider store={store}>{FieldFactory.makeField(Map({type: 'text', name: 'name'}))}</Provider>);
+        expect(textField.find(TextField).props().validationMessage).to.equal('Invalid value');
+    });
+    it('has the correct validation message when one is supplied', () => {
+        const textField = mount(<Provider store={store}>{FieldFactory.makeField(Map({type: 'text', name: 'name', validationMessage: 'wrong value'}))}</Provider>);
+        expect(textField.find(TextField).props().validationMessage).to.equal('wrong value');
     });
 });

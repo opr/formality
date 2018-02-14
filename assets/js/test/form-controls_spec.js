@@ -28,13 +28,14 @@ describe('Form controls', () => {
         expect(formControls.find('button').at(1).key()).to.equal('next');
     });
 
-    it('does not render the next button on the last page, and renders the submit button', () => {
+    it('does not render the next button on the last page, and renders the submit button and the previous button', () => {
         const store = createStore(reducer, initialState);
         store.dispatch({type: 'SET_PAGE', page: store.getState().get('pages').count()-1});
         const formControls = mount(<Provider store={store}><FormControls /></Provider>);
-        expect(formControls.find('button').length).to.equal(1);
+        expect(formControls.find('button').length).to.equal(2);
         expect(formControls.find('button').at(0).key()).to.not.equal('next');
-        expect(formControls.find('button').at(0).key()).to.equal('submit');
+        expect(formControls.find('button').at(0).key()).to.equal('previous');
+        expect(formControls.find('button').at(1).key()).to.equal('submit');
     });
 
     it('clicking the next button makes you go to the next page', () => {

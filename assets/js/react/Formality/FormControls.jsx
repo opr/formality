@@ -11,7 +11,7 @@ class FormControls extends React.Component {
     }
 
     render() {
-        const prevButton = this.props.firstPage ? null : (this.props.lastPage ? null : (<button key={'previous'} onClick={this.props.previousPage}>Previous</button>)),
+        const prevButton = this.props.firstPage ? null : <button key={'previous'} onClick={this.props.previousPage}>Previous</button>,
             nextButton = this.props.lastPage ? null : (<button key={'next'} onClick={this.props.nextPage}>Next</button>),
             submitButton = this.props.lastPage ? (<button key={'submit'}>Submit</button>) : null;
 

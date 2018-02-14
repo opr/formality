@@ -12,7 +12,21 @@ export const testForm = {
                     fields: [
                         {
                             type: 'text',
-                            name: 'title'
+                            name: 'title',
+                            label: 'Title',
+                            validation: {
+                                required: true,
+                                minLength: 2,
+                            }
+                        },
+                        {
+                            type: 'email',
+                            label: 'Your email address',
+                            name: 'email-address',
+                            validation: {
+                                required: true,
+                                type: 'email'
+                            }
                         }
                     ]
                 }
