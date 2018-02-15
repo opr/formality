@@ -9,6 +9,7 @@ import {setDefaultVariables} from '../react/Formality/Logic/Logic';
 import {createStore} from 'redux';
 import {testForm} from '../react/Formality/Logic/testForm';
 import reducer from '../react/Formality/Logic/Reducer';
+import SelectField from '../react/Formality/SelectField';
 
 describe('Field Factory', () => {
 
@@ -17,16 +18,34 @@ describe('Field Factory', () => {
 
     it('creates a text field', () => {
         const textField = (FieldFactory.makeField(Map({type: 'text', name: 'name'})));
-        let formPage = mount(<Provider store={store}><TextField/></Provider>);
+        let formPage = mount(<Provider store={store}>{textField}</Provider>);
         expect(formPage.find(TextField).length).to.equal(1);
     });
 
-    it('has the correct default validation message when one is not supplied', () => {
-        const textField = mount(<Provider store={store}>{FieldFactory.makeField(Map({type: 'text', name: 'name'}))}</Provider>);
-        expect(textField.find(TextField).props().validationMessage).to.equal('Invalid value');
+    it('creates a select field', () => {
+        const selectField = (FieldFactory.makeField(Map({
+            type: 'select',
+            name: 'name',
+            options: Map({scotland: 'Scotland', england: 'England', wales: 'Wales'})
+        })));
+        let formPage = mount(<Provider store={store}>{selectField}</Provider>);
+        expect(formPage.find(SelectField).length).to.equal(1);
     });
+
+    it('has the correct default validation message when one is not supplied', () => {
+        const textField = mount(<Provider store={store}>{FieldFactory.makeField(Map({
+            type: 'text',
+            name: 'name'
+        }))}</Provider>);
+        expect(textField.find(TextField).props().validationMessages).to.contain('Invalid value');
+    });
+
     it('has the correct validation message when one is supplied', () => {
-        const textField = mount(<Provider store={store}>{FieldFactory.makeField(Map({type: 'text', name: 'name', validationMessage: 'wrong value'}))}</Provider>);
-        expect(textField.find(TextField).props().validationMessage).to.equal('wrong value');
+        const textField = mount(<Provider store={store}>{FieldFactory.makeField(Map({
+            type: 'text',
+            name: 'name',
+            validation: Map({validationMessage: 'wrong value'})
+        }))}</Provider>);
+        expect(textField.find(TextField).props().validationMessages).to.contain('wrong value');
     });
 });

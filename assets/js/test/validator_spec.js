@@ -1,7 +1,7 @@
 import {expect} from 'chai';
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import {
-    generateValidationFunction, validateEmail, validateMaxLength,
+    generateValidationFunction, generateValidationMessages, validateEmail, validateMaxLength,
     validateMinLength
 } from "../react/Formality/Logic/validator";
 
@@ -34,9 +34,9 @@ describe('validator', () => {
             rules = Map({
                 minLength: 50
             });
-        expect(generateValidationFunction(rules)(value)).to.equal(false);
+        expect(generateValidationFunction(rules)(value).valid).to.equal(false);
         value = 'Coffee Coffee Coffee Coffee Coffee Coffee Coffee Coffee Coffee Coffee ';
-        expect(generateValidationFunction(rules)(value)).to.equal(true);
+        expect(generateValidationFunction(rules)(value).valid).to.equal(true);
     });
 
     it('generates a function that validates maximum length', () => {
@@ -44,9 +44,9 @@ describe('validator', () => {
             rules = Map({
                 maxLength: 50
             });
-        expect(generateValidationFunction(rules)(value)).to.equal(true);
+        expect(generateValidationFunction(rules)(value).valid).to.equal(true);
         value = 'Coffee Coffee Coffee Coffee Coffee Coffee Coffee Coffee Coffee Coffee ';
-        expect(generateValidationFunction(rules)(value)).to.equal(false);
+        expect(generateValidationFunction(rules)(value).valid).to.equal(false);
     });
 
     it('generates a function that validates an email', () => {
@@ -54,7 +54,7 @@ describe('validator', () => {
             rules = Map({
                 type: 'email'
             });
-        expect(generateValidationFunction(rules)(value)).to.equal(true);
+        expect(generateValidationFunction(rules)(value).valid).to.equal(true);
     });
 
     it('generates a function that does not validate an email', () => {
@@ -62,6 +62,61 @@ describe('validator', () => {
             rules = Map({
                 type: 'email'
             });
-        expect(generateValidationFunction(rules)(value)).to.equal(false);
+        expect(generateValidationFunction(rules)(value).valid).to.equal(false);
+    });
+
+    it('generates a function that does not validate a regex', () => {
+        let value = 'test string not right',
+            rules = Map({
+                regex: /^hello$/
+            });
+        expect(generateValidationFunction(rules)(value).valid).to.equal(false);
+    });
+
+    it('generates a function that validates a a regex', () => {
+        let value = 'hello',
+            rules = Map({
+                regex: /^hello$/
+            }),
+            result = generateValidationFunction(rules)(value);
+        expect(result.valid).to.equal(true);
+    });
+
+    it('generates a function that handles a list of maps', () => {
+        let value = 'hello',
+            rules = List([
+                Map({
+                    regex: /^hello$/
+                })]),
+            result = generateValidationFunction(rules)(value);
+        expect(result.valid).to.equal(true);
+    });
+
+    it('generates a function that handles a list of maps and returns the failing rule', () => {
+        let value = 'hello',
+            rules = List([
+                Map({
+                    regex: /^hello$/
+                }),
+                Map({
+                    minLength: 500
+                })]),
+            result = generateValidationFunction(rules)(value);
+        expect(result.valid).to.equal(false);
+        expect(result.invalidRule).to.equal(1);
+    });
+
+    it('generates the correct list of validation messages', () => {
+        const rules = List([
+            Map({
+                regex: /^hello$/,
+                validationMessage: 'Invalid value'
+            }),
+            Map({
+                minLength: 500,
+                validationMessage: 'Too short'
+            })]);
+        expect(generateValidationMessages(rules)).to.contain('Too short');
+        expect(generateValidationMessages(rules)).to.contain('Invalid value');
     });
 });

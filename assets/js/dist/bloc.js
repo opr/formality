@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "9a2083c9a14818620af2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a3ded1a1d097bc7cf4a5"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -745,10 +745,6 @@ var pageFunctions = {
     }
 };
 
-if (false) {
-    var oprRhlTest = 'oprRhlTest';
-}
-
 function executePageFunctions() {
     var finalize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
@@ -826,7 +822,13 @@ var _TextField = __webpack_require__("./assets/js/react/Formality/TextField.jsx"
 
 var _TextField2 = _interopRequireDefault(_TextField);
 
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
+
 var _validator = __webpack_require__("./assets/js/react/Formality/Logic/validator.js");
+
+var _SelectField = __webpack_require__("./assets/js/react/Formality/SelectField.jsx");
+
+var _SelectField2 = _interopRequireDefault(_SelectField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -840,9 +842,8 @@ var FieldFactory = function () {
     _createClass(FieldFactory, null, [{
         key: 'makeField',
         value: function makeField(field) {
-            var defaultValidationMessage = 'Invalid value';
-            var inner = void 0,
-                validation = null;
+            var inner = null,
+                validationMessages = (0, _validator.generateValidationMessages)(field.get('validation', (0, _immutable.List)([])));
 
             switch (field.get('type')) {
                 case 'text':
@@ -850,7 +851,7 @@ var FieldFactory = function () {
                         label: field.get('label'),
                         type: 'text',
                         validationFunction: (0, _validator.generateValidationFunction)(field.get('validation')),
-                        validationMessage: field.get('validationMessage', defaultValidationMessage),
+                        validationMessages: validationMessages,
                         required: field.getIn(['validation', 'required'], false) });
                     break;
                 case 'email':
@@ -858,7 +859,23 @@ var FieldFactory = function () {
                         label: field.get('label'),
                         type: 'email',
                         validationFunction: (0, _validator.generateValidationFunction)(field.get('validation')),
-                        validationMessage: field.get('validationMessage', defaultValidationMessage),
+                        validationMessages: validationMessages,
+                        required: field.getIn(['validation', 'required'], false) });
+                    break;
+                case 'password':
+                    inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
+                        label: field.get('label'),
+                        type: 'password',
+                        validationFunction: (0, _validator.generateValidationFunction)(field.get('validation')),
+                        validationMessages: validationMessages,
+                        required: field.getIn(['validation', 'required'], false) });
+                    break;
+                case 'select':
+                    inner = _react2.default.createElement(_SelectField2.default, { name: field.get('name'), key: field.get('name'),
+                        label: field.get('label'),
+                        options: field.get('options'),
+                        validationFunction: (0, _validator.generateValidationFunction)(field.get('validation')),
+                        validationMessages: validationMessages,
                         required: field.getIn(['validation', 'required'], false) });
                     break;
                 default:
@@ -900,7 +917,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 var _actions = __webpack_require__("./assets/js/react/Formality/Logic/actions.js");
 
@@ -989,7 +1006,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 var _FormSection = __webpack_require__("./assets/js/react/Formality/FormSection.jsx");
 
@@ -1110,7 +1127,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 var _FieldFactory = __webpack_require__("./assets/js/react/Formality/FieldFactory.jsx");
 
@@ -1211,7 +1228,7 @@ var _redux = __webpack_require__("./node_modules/redux/es/index.js");
 
 var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 var _Reducer = __webpack_require__("./assets/js/react/Formality/Logic/Reducer.js");
 
@@ -1308,7 +1325,7 @@ exports.previousPage = previousPage;
 exports.setPage = setPage;
 exports.setValue = setValue;
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 function setDefaultVariables(state) {
     return state.set('currentPage', state.get('currentPage', 0)).set('variables', state.get('variables', (0, _immutable.Map)()));
@@ -1345,7 +1362,7 @@ exports.default = reducer;
 
 var _Logic = __webpack_require__("./assets/js/react/Formality/Logic/Logic.js");
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 function reducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _immutable.Map)();
@@ -1422,7 +1439,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getFormAttributes = getFormAttributes;
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 function getFormAttributes() {
     var formConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1454,12 +1471,17 @@ var testForm = exports.testForm = {
         sections: [{
             name: 'Personal Details',
             fields: [{
-                type: 'text',
+                type: 'select',
                 name: 'title',
                 label: 'Title',
+                options: {
+                    mr: 'Mr.',
+                    mrs: 'Mrs.',
+                    miss: 'Miss',
+                    sir: 'Sir'
+                },
                 validation: {
-                    required: true,
-                    minLength: 2
+                    required: true
                 }
             }, {
                 type: 'email',
@@ -1469,6 +1491,17 @@ var testForm = exports.testForm = {
                     required: true,
                     type: 'email'
                 }
+            }, {
+                type: 'password',
+                label: 'Password',
+                validation: [{
+                    minLength: 8,
+                    regex: /(?=.*[A-Z])/,
+                    validationMessage: 'Please make sure the password is at least 8 characters long and contains a capital letter'
+                }, {
+                    maxLength: 12,
+                    validationMessage: 'Don\'t make your passwords too long'
+                }]
             }]
         }]
     }, {
@@ -1525,14 +1558,20 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.validateEmail = validateEmail;
+exports.validateRegex = validateRegex;
 exports.validateMinLength = validateMinLength;
 exports.validateMaxLength = validateMaxLength;
+exports.generateValidationMessages = generateValidationMessages;
 exports.generateValidationFunction = generateValidationFunction;
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 function validateEmail(email) {
     return email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/) !== null;
+}
+
+function validateRegex(text, pattern) {
+    return text.match(pattern) !== null;
 }
 
 function validateMinLength(str, length) {
@@ -1543,20 +1582,78 @@ function validateMaxLength(str, length) {
     return str.length <= length;
 }
 
-function generateValidationFunction(rules) {
-    if (!(0, _immutable.isImmutable)(rules)) {
-        return function () {
-            return true;
-        };
+function generateValidationMessages(validation) {
+
+    var defaultValidationMessage = 'Invalid value';
+    var validationMessages = [];
+
+    if (_immutable.Map.isMap(validation)) {
+        validation = (0, _immutable.List)([validation]);
     }
-    return function (value) {
-        var valid = true;
-        var maxLength = rules.get('maxLength', -1);
-        valid = rules.get('minLength', 0) <= value.length && (maxLength === -1 || maxLength !== -1 && value.length <= maxLength);
-        if (rules.get('type') === 'email') {
-            valid = validateEmail(value);
+
+    validation.map(function (e) {
+        validationMessages.push(e.get('validationMessage', defaultValidationMessage));
+    });
+
+    if (validationMessages.length === 0) {
+        validationMessages = [defaultValidationMessage];
+    }
+
+    return validationMessages;
+}
+
+function generateValidationFunction(rules) {
+
+    return (0, _immutable.isImmutable)(rules) ? function (value) {
+        var valid = void 0,
+            invalidRule = -1;
+
+        if (_immutable.Map.isMap(rules)) {
+            rules = (0, _immutable.List)([rules]);
         }
-        return valid;
+
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = rules.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var rule = _step.value;
+
+                var ruleNumber = rule[0];
+                rule = rule[1];
+                var maxLength = rule.get('maxLength', -1);
+                valid = validateMinLength(value, rule.get('minLength', 0)) && (maxLength === -1 || validateMaxLength(value, maxLength));
+                if (rule.get('type') === 'email') {
+                    valid = valid && validateEmail(value);
+                }
+                if (rule.has('regex', '')) {
+                    valid = valid && validateRegex(value, rule.get('regex'));
+                }
+                if (!valid) {
+                    invalidRule = ruleNumber;
+                    break;
+                }
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+
+        return { valid: valid, invalidRule: invalidRule };
+    } : function () {
+        return { valid: true //return always valid if there are no rules
+        };
     };
 }
 
@@ -1582,7 +1679,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
 
-var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.js");
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 var _actions = __webpack_require__("./assets/js/react/Formality/Logic/actions.js");
 
@@ -1655,6 +1752,137 @@ exports.default = (0, _reactRedux.connect)(function (state) {
 
 /***/ }),
 
+/***/ "./assets/js/react/Formality/SelectField.jsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
+
+var _actions = __webpack_require__("./assets/js/react/Formality/Logic/actions.js");
+
+var actionCreators = _interopRequireWildcard(_actions);
+
+var _ValidationLabel = __webpack_require__("./assets/js/react/Formality/ValidationLabel.jsx");
+
+var _ValidationLabel2 = _interopRequireDefault(_ValidationLabel);
+
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SelectField = function (_React$Component) {
+    _inherits(SelectField, _React$Component);
+
+    function SelectField(props) {
+        _classCallCheck(this, SelectField);
+
+        var _this = _possibleConstructorReturn(this, (SelectField.__proto__ || Object.getPrototypeOf(SelectField)).call(this));
+
+        var validationResult = props.validationFunction(props.value);
+        _this.state = _extends({}, props, {
+            value: props.value,
+            valid: validationResult.valid,
+            validationMessage: props.validationMessages.get(validationResult.invalidRule)
+        });
+        return _this;
+    }
+
+    _createClass(SelectField, [{
+        key: 'onChangeHandler',
+        value: function onChangeHandler(name, value) {
+            var validationResult = this.props.validationFunction(value);
+            this.setState({
+                value: value,
+                dirty: true,
+                valid: validationResult.valid,
+                validationMessage: this.props.validationMessages.get(validationResult.invalidRule)
+            });
+            this.props.setValue(name, value);
+        }
+    }, {
+        key: 'generateOptions',
+        value: function generateOptions() {
+            var options = [];
+            this.props.options.mapEntries(function (e) {
+                options.push(_react2.default.createElement(
+                    'option',
+                    { key: e[0], value: e[0] },
+                    e[1]
+                ));
+            });
+            return options;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'form-row' },
+                _react2.default.createElement(
+                    'label',
+                    { htmlFor: 'form-row__' + this.props.name },
+                    this.props.label
+                ),
+                _react2.default.createElement(
+                    'select',
+                    { value: this.state.value, onChange: function onChange(e) {
+                            return _this2.onChangeHandler(_this2.props.name, e.target.value);
+                        },
+                        className: 'input-field --select',
+                        required: this.props.required,
+                        name: this.props.name },
+                    this.generateOptions()
+                ),
+                _react2.default.createElement(_ValidationLabel2.default, { show: !this.state.valid && this.state.dirty, message: this.state.validationMessage })
+            );
+        }
+    }]);
+
+    return SelectField;
+}(_react2.default.Component);
+
+exports.default = (0, _reactRedux.connect)(function (state, ownProps) {
+    return {
+        name: ownProps.name,
+        value: state.getIn(['variables', ownProps.name], ''),
+        dirty: state.hasIn(['variables', ownProps.name]),
+        placeholder: ownProps.placeholder,
+        required: ownProps.required,
+        label: ownProps.label || '',
+        options: ownProps.options || [],
+        validationFunction: ownProps.validationFunction instanceof Function ? ownProps.validationFunction : function () {
+            return { valid: true, invalidRule: 0 };
+        },
+        validationMessages: (0, _immutable.fromJS)(ownProps.validationMessages) || (0, _immutable.List)()
+    };
+}, actionCreators)(SelectField);
+
+/***/ }),
+
 /***/ "./assets/js/react/Formality/TextField.jsx":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1683,6 +1911,8 @@ var _ValidationLabel = __webpack_require__("./assets/js/react/Formality/Validati
 
 var _ValidationLabel2 = _interopRequireDefault(_ValidationLabel);
 
+var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1701,17 +1931,20 @@ var TextField = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this));
 
-        _this.state = _extends({}, props, { value: props.value, valid: props.validationFunction(props.value) });
+        var validationResult = props.validationFunction(props.value);
+        _this.state = _extends({}, props, { value: props.value, valid: validationResult.valid, validationMessage: props.validationMessages.get(validationResult.invalidRule) });
         return _this;
     }
 
     _createClass(TextField, [{
         key: 'onChangeHandler',
         value: function onChangeHandler(name, value) {
+            var validationResult = this.props.validationFunction(value);
             this.setState({
                 value: value,
                 dirty: true,
-                valid: this.props.validationFunction(value)
+                valid: validationResult.valid,
+                validationMessage: this.props.validationMessages.get(validationResult.invalidRule)
             });
             this.props.setValue(name, value);
         }
@@ -1732,9 +1965,10 @@ var TextField = function (_React$Component) {
                         return _this2.onChangeHandler(_this2.props.name, e.target.value);
                     }, type: this.props.type,
                     placeholder: this.props.placeholder,
+                    className: 'input-field --text --' + this.props.type,
                     required: this.props.required,
                     name: this.props.name }),
-                _react2.default.createElement(_ValidationLabel2.default, { show: !this.state.valid && this.state.dirty, message: this.props.validationMessage })
+                _react2.default.createElement(_ValidationLabel2.default, { show: !this.state.valid && this.state.dirty, message: this.state.validationMessage })
             );
         }
     }]);
@@ -1752,9 +1986,9 @@ exports.default = (0, _reactRedux.connect)(function (state, ownProps) {
         label: ownProps.label || '',
         type: ownProps.type || 'text',
         validationFunction: ownProps.validationFunction instanceof Function ? ownProps.validationFunction : function () {
-            return true;
+            return { valid: true, invalidRule: 0 };
         },
-        validationMessage: ownProps.validationMessage
+        validationMessages: (0, _immutable.fromJS)(ownProps.validationMessages) || (0, _immutable.List)()
     };
 }, actionCreators)(TextField);
 
@@ -12064,21 +12298,54 @@ module.exports = XmlEntities;
 
 /***/ }),
 
-/***/ "./node_modules/immutable/dist/immutable.js":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./node_modules/immutable/dist/immutable.es.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "version", function() { return version; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Collection", function() { return Collection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Iterable", function() { return Iterable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Seq", function() { return Seq; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Map", function() { return Map; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderedMap", function() { return OrderedMap; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "List", function() { return List; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Stack", function() { return Stack; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Set", function() { return Set; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderedSet", function() { return OrderedSet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Record", function() { return Record; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Range", function() { return Range; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Repeat", function() { return Repeat; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is", function() { return is; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromJS", function() { return fromJS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hash", function() { return hash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isImmutable", function() { return isImmutable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isCollection", function() { return isCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isKeyed", function() { return isKeyed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isIndexed", function() { return isIndexed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAssociative", function() { return isAssociative; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isOrdered", function() { return isOrdered; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValueObject", function() { return isValueObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getIn", function() { return getIn$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "has", function() { return has; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasIn", function() { return hasIn$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "merge", function() { return merge$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergeDeep", function() { return mergeDeep$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergeWith", function() { return mergeWith$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergeDeepWith", function() { return mergeDeepWith$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeIn", function() { return removeIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setIn", function() { return setIn$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateIn", function() { return updateIn; });
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-(function (global, factory) {
-	 true ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.Immutable = {})));
-}(this, (function (exports) { 'use strict';
 
 // Used for setting prototype methods that IE8 chokes on.
 var DELETE = 'delete';
@@ -17825,48 +18092,8 @@ var Immutable = {
 // Note: Iterable is deprecated
 var Iterable = Collection;
 
-exports['default'] = Immutable;
-exports.version = version;
-exports.Collection = Collection;
-exports.Iterable = Iterable;
-exports.Seq = Seq;
-exports.Map = Map;
-exports.OrderedMap = OrderedMap;
-exports.List = List;
-exports.Stack = Stack;
-exports.Set = Set;
-exports.OrderedSet = OrderedSet;
-exports.Record = Record;
-exports.Range = Range;
-exports.Repeat = Repeat;
-exports.is = is;
-exports.fromJS = fromJS;
-exports.hash = hash;
-exports.isImmutable = isImmutable;
-exports.isCollection = isCollection;
-exports.isKeyed = isKeyed;
-exports.isIndexed = isIndexed;
-exports.isAssociative = isAssociative;
-exports.isOrdered = isOrdered;
-exports.isValueObject = isValueObject;
-exports.get = get;
-exports.getIn = getIn$1;
-exports.has = has;
-exports.hasIn = hasIn$1;
-exports.merge = merge$1;
-exports.mergeDeep = mergeDeep$1;
-exports.mergeWith = mergeWith$1;
-exports.mergeDeepWith = mergeDeepWith$1;
-exports.remove = remove;
-exports.removeIn = removeIn;
-exports.set = set;
-exports.setIn = setIn$1;
-exports.update = update$1;
-exports.updateIn = updateIn;
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
+/* harmony default export */ __webpack_exports__["default"] = (Immutable);
 
 
 /***/ }),

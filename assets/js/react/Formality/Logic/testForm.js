@@ -11,12 +11,17 @@ export const testForm = {
                     name: 'Personal Details',
                     fields: [
                         {
-                            type: 'text',
+                            type: 'select',
                             name: 'title',
                             label: 'Title',
+                            options: {
+                              mr: 'Mr.',
+                              mrs: 'Mrs.',
+                              miss: 'Miss',
+                              sir: 'Sir'
+                            },
                             validation: {
-                                required: true,
-                                minLength: 2,
+                                required: true
                             }
                         },
                         {
@@ -27,6 +32,21 @@ export const testForm = {
                                 required: true,
                                 type: 'email'
                             }
+                        },
+                        {
+                            type: 'password',
+                            label: 'Password',
+                            validation: [
+                                {
+                                    minLength: 8,
+                                    regex: /(?=.*[A-Z])/,
+                                    validationMessage: 'Please make sure the password is at least 8 characters long and contains a capital letter'
+                                },
+                                {
+                                    maxLength: 12,
+                                    validationMessage: 'Don\'t make your passwords too long'
+                                }
+                            ]
                         }
                     ]
                 }

@@ -1,12 +1,14 @@
 import React from 'react';
 import TextField from './TextField';
-import {generateValidationFunction} from './Logic/validator';
+import {Map, List} from 'immutable';
+import {generateValidationFunction, generateValidationMessages} from './Logic/validator';
+import SelectField from "./SelectField";
 
 export default class FieldFactory {
 
     static makeField(field) {
-        const defaultValidationMessage = 'Invalid value';
-        let inner, validation = null;
+        let inner = null,
+            validationMessages = generateValidationMessages(field.get('validation', List([])));
 
         switch (field.get('type')) {
             case 'text':
@@ -15,17 +17,35 @@ export default class FieldFactory {
                                label={field.get('label')}
                                type={'text'}
                                validationFunction={generateValidationFunction(field.get('validation'))}
-                               validationMessage={field.get('validationMessage', defaultValidationMessage)}
+                               validationMessages={validationMessages}
                                required={field.getIn(['validation', 'required'], false)}/>;
                 break;
-                case 'email':
+            case 'email':
                 inner =
                     <TextField name={field.get('name')} key={field.get('name')}
                                label={field.get('label')}
                                type={'email'}
                                validationFunction={generateValidationFunction(field.get('validation'))}
-                               validationMessage={field.get('validationMessage', defaultValidationMessage)}
+                               validationMessages={validationMessages}
                                required={field.getIn(['validation', 'required'], false)}/>;
+                break;
+            case 'password':
+                inner =
+                    <TextField name={field.get('name')} key={field.get('name')}
+                               label={field.get('label')}
+                               type={'password'}
+                               validationFunction={generateValidationFunction(field.get('validation'))}
+                               validationMessages={validationMessages}
+                               required={field.getIn(['validation', 'required'], false)}/>;
+                break;
+            case 'select':
+                inner =
+                    <SelectField name={field.get('name')} key={field.get('name')}
+                                 label={field.get('label')}
+                                 options={field.get('options')}
+                                 validationFunction={generateValidationFunction(field.get('validation'))}
+                                 validationMessages={validationMessages}
+                                 required={field.getIn(['validation', 'required'], false)}/>;
                 break;
             default :
                 inner = null;

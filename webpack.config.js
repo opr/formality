@@ -27,7 +27,7 @@ module.exports = {
         rules: [
             {
                 test: /\.jsx?$/,
-                exclude: /node_modules/,
+                exclude: /node_modules\/(?!(tiny-slider)\/).*/,
                 use: 'babel-loader'
             }
         ]
