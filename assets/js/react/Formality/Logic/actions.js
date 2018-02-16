@@ -10,6 +10,7 @@ export function nextPage() {
         type: 'NEXT_PAGE'
     };
 }
+
 export function previousPage() {
     return {
         type: 'PREVIOUS_PAGE'
@@ -21,5 +22,13 @@ export function setValue(key, value) {
         type: 'SET_VALUE',
         key,
         value
+    };
+}
+
+export function setPageValidity(key, valid) {
+    return {
+        type: 'SET_PAGE_VALIDITY',
+        key,
+        valid
     };
 }

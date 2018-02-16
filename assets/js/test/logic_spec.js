@@ -7,7 +7,7 @@ import {
     previousPage,
     setPage,
     setDefaultVariables,
-    setValue
+    setValue, setValid, setPageValidity
 } from "../react/Formality/Logic/Logic";
 
 describe('Form logic', () => {
@@ -46,5 +46,28 @@ describe('Form logic', () => {
 
     it('sets the value of the variables map correctly', () => {
         expect(setValue(Map(), 'name', 'Thomas')).to.equal(Map({variables: Map({name: 'Thomas'})}));
+    });
+
+    it('sets page validity', () => {
+        const firstState = setDefaultVariables(Map({
+            pages: List([
+                Map({
+                    sections: List([
+                        Map({
+                            name: 'test section',
+                            fields: List([
+                                Map({
+                                    type: 'text'
+                                })
+                            ])
+                        })
+                    ])
+                })
+            ])
+        }));
+        expect(setPageValidity(firstState, 'name', true).getIn(['pages', 0, 'fieldValidity'])).to.equal(
+            Map({
+                name: true
+            }))
     });
 });

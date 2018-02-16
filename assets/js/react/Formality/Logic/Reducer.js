@@ -1,4 +1,4 @@
-import {setDefaultVariables, nextPage, previousPage, setPage, setValue} from "./Logic";
+import {setDefaultVariables, nextPage, previousPage, setPage, setValue, setPageValidity} from "./Logic";
 import {Map} from 'immutable';
 
 export default function reducer(state = Map(), action) {
@@ -15,6 +15,8 @@ export default function reducer(state = Map(), action) {
             return setPage(state, action.page);
         case 'SET_VALUE':
             return setValue(state, action.key, action.value);
+        case 'SET_PAGE_VALIDITY':
+            return setPageValidity(state, action.key, action.valid);
     }
     return state;
 }

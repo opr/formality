@@ -43,6 +43,7 @@ export default class FieldFactory {
                     <SelectField name={field.get('name')} key={field.get('name')}
                                  label={field.get('label')}
                                  options={field.get('options')}
+                                 defaultValue={field.get('defaultValue', null)}
                                  validationFunction={generateValidationFunction(field.get('validation'))}
                                  validationMessages={validationMessages}
                                  required={field.getIn(['validation', 'required'], false)}/>;

@@ -21,6 +21,8 @@ describe('Form controls', () => {
 
     it('renders next and previous buttons on a "middle" page', () => {
         const store = createStore(reducer, initialState);
+        //hacky removal of "allowInvalidProgression" to satisfy tests
+        store.dispatch({type: 'SET_STATE', payload: store.getState().set('allowInvalidProgression', true)});
         store.dispatch({type: 'NEXT_PAGE'});
         const formControls = mount(<Provider store={store}><FormControls /></Provider>);
         expect(formControls.find('button').length).to.equal(2);

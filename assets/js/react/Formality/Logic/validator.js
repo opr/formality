@@ -33,7 +33,7 @@ export function generateValidationMessages(validation) {
         validationMessages = [defaultValidationMessage];
     }
 
-    return validationMessages;
+    return List(validationMessages);
 }
 
 export function generateValidationFunction(rules) {
@@ -61,10 +61,21 @@ export function generateValidationFunction(rules) {
                 invalidRule = ruleNumber;
                 break;
             }
-
         }
         return {valid, invalidRule}
     } : () => {
         return {valid: true} //return always valid if there are no rules
     };
+}
+
+export function handleChange(name, value, that) {
+    const validationResult = that.state.validationFunction(value);
+    that.setState({
+        value: value,
+        dirty: true,
+        valid: validationResult.valid,
+        validationMessage: that.state.validationMessages.get(validationResult.invalidRule)
+    });
+    that.props.setValue(name, value);
+    //that.props.setPageValidity(name, validationResult.valid);
 }

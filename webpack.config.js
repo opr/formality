@@ -17,7 +17,7 @@ module.exports = {
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
-        new WriteFilePlugin({ test: /^bloc.js$/, force: true})
+        new WriteFilePlugin({test: /^bloc.js$/, force: true})
     ],
     output: {
         path: path.resolve(__dirname, './assets/js', 'dist'),

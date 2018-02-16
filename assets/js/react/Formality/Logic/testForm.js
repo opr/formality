@@ -5,9 +5,11 @@ export const testForm = {
     formAction: '/testAction',
     pages: [
         {
+            allowInvalidProgression: false,
             name: 'Basic Info',
             sections: [
                 {
+
                     name: 'Personal Details',
                     fields: [
                         {
@@ -15,11 +17,12 @@ export const testForm = {
                             name: 'title',
                             label: 'Title',
                             options: {
-                              mr: 'Mr.',
-                              mrs: 'Mrs.',
-                              miss: 'Miss',
-                              sir: 'Sir'
+                                mr: 'Mr.',
+                                mrs: 'Mrs.',
+                                miss: 'Miss',
+                                sir: 'Sir'
                             },
+                            defaultValue: 'Please select…',
                             validation: {
                                 required: true
                             }

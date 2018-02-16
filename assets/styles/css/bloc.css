@@ -2655,6 +2655,12 @@ h6 {
       width: auto;
       padding: 0; } }
 
+.form-row {
+  width: 100%;
+  padding: 0 20px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
 .hidden-label {
   position: absolute;
   left: -1000px; }

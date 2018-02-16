@@ -8,6 +8,8 @@ import TextField from '../react/Formality/TextField';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducer from '../react/Formality/Logic/Reducer';
+import FieldFactory from "../react/Formality/FieldFactory";
+import ValidationLabel from "../react/Formality/ValidationLabel";
 
 describe('TextField', () => {
     const initialState = fromJS(testForm),
@@ -28,5 +30,16 @@ describe('TextField', () => {
         expect(store.getState().getIn(['variables', 'test-field'])).to.equal('boots');
         textField.find(TextField).find('input').simulate('change', {target: {value: ''}});
         expect(store.getState().getIn(['variables', 'test-field'])).to.equal('');
+    });
+
+    it('selects the correct error message', () => {
+        //fake validation rules
+        const textField = mount(<Provider store={store}>{FieldFactory.makeField(fromJS({type: 'text', name: 'test-field', validation: {regex: /^[a-z]$/}}))}</Provider>);
+        const textField2 = mount(<Provider store={store}>{FieldFactory.makeField(fromJS({type: 'text', name: 'test-field', validation: {regex: /^[a-z]$/, validationMessage: 'wrong value'}}))}</Provider>);
+        textField.find(TextField).find('input').simulate('change', {target: {value: 'boots'}});
+        expect(textField.find(ValidationLabel).length).to.equal(1);
+        expect(textField2.find(ValidationLabel).length).to.equal(1);
+        expect(textField.find(ValidationLabel).props().message).to.equal('Invalid value');
+        expect(textField2.find(ValidationLabel).props().message).to.equal('wrong value');
     });
 });
