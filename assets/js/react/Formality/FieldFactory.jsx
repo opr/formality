@@ -6,9 +6,33 @@ import SelectField from "./SelectField";
 
 export default class FieldFactory {
 
-    static makeField(field) {
+    static shouldFieldBeShown(field, variables) {
+        let display = true;
+        if(field.has('displayRules')) {
+            if(field.get('displayRules').has('hideByDefault')) {
+                display = false;
+            }
+
+            for(const ruleSet of field.getIn(['displayRules', 'ruleSets'], []).values()) {
+                if(ruleSet.has('conditions')) {
+                    //number of conditions
+                    for(const condition of ruleSet.get('conditions').values()) {
+                        console.log(condition);
+                    }
+                }
+            }
+        }
+        return display;
+    }
+
+    static makeField(field, variables = null) {
         let inner = null,
             validationMessages = generateValidationMessages(field.get('validation', List([])));
+
+        //check if field should be shown
+        if(!FieldFactory.shouldFieldBeShown(field, variables)) {
+            return null;
+        }
 
         switch (field.get('type')) {
             case 'text':

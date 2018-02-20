@@ -28,6 +28,24 @@ export const testForm = {
                             }
                         },
                         {
+                            type: 'text',
+                            label: 'Maiden name (if applicable)',
+                            name: 'maiden-name',
+                            displayRules: {
+                                hideByDefault: true,
+                                ruleSets: [
+                                    {
+                                        conditions: [{
+                                            variable: 'title',
+                                            value: 'mrs',
+                                            compare: '='
+                                        }],
+                                        action: 'show'
+                                    }
+                                ]
+                            }
+                        },
+                        {
                             type: 'email',
                             label: 'Your email address',
                             name: 'email-address',

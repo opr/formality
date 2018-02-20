@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5e9407a01a51d35dd810"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "24df90b79977a7269da7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -840,10 +840,78 @@ var FieldFactory = function () {
     }
 
     _createClass(FieldFactory, null, [{
+        key: 'shouldFieldBeShown',
+        value: function shouldFieldBeShown(field, variables) {
+            var display = true;
+            if (field.has('displayRules')) {
+                if (field.get('displayRules').has('hideByDefault')) {
+                    display = false;
+                }
+
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = field.getIn(['displayRules', 'ruleSets'], []).values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var ruleSet = _step.value;
+
+                        if (ruleSet.has('conditions')) {
+                            var _iteratorNormalCompletion2 = true;
+                            var _didIteratorError2 = false;
+                            var _iteratorError2 = undefined;
+
+                            try {
+                                for (var _iterator2 = ruleSet.get('conditions').values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                                    var condition = _step2.value;
+
+                                    console.log(condition);
+                                }
+                            } catch (err) {
+                                _didIteratorError2 = true;
+                                _iteratorError2 = err;
+                            } finally {
+                                try {
+                                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                        _iterator2.return();
+                                    }
+                                } finally {
+                                    if (_didIteratorError2) {
+                                        throw _iteratorError2;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+            return display;
+        }
+    }, {
         key: 'makeField',
         value: function makeField(field) {
+            var variables = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
             var inner = null,
                 validationMessages = (0, _validator.generateValidationMessages)(field.get('validation', (0, _immutable.List)([])));
+
+            //check if field should be shown
+            if (!FieldFactory.shouldFieldBeShown(field, variables)) {
+                return null;
+            }
 
             switch (field.get('type')) {
                 case 'text':
@@ -1167,7 +1235,7 @@ var FormSection = function (_React$Component) {
                 for (var _iterator = this.props.fields.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var f = _step.value;
 
-                    fields.push(_FieldFactory2.default.makeField(f));
+                    fields.push(_FieldFactory2.default.makeField(f, this.props.variables));
                 }
             } catch (err) {
                 _didIteratorError = true;
@@ -1197,6 +1265,7 @@ var FormSection = function (_React$Component) {
 
 exports.default = (0, _reactRedux.connect)(function (state, ownProps) {
     return {
+        variables: state.get('variables', (0, _immutable.List)()),
         fields: state.getIn(['pages', state.get('currentPage'), 'sections', ownProps.section, 'fields'], (0, _immutable.List)())
     };
 })(FormSection);
@@ -1514,6 +1583,21 @@ var testForm = exports.testForm = {
                 defaultValue: 'Please select…',
                 validation: {
                     required: true
+                }
+            }, {
+                type: 'text',
+                label: 'Maiden name (if applicable)',
+                name: 'maiden-name',
+                displayRules: {
+                    hideByDefault: true,
+                    ruleSets: [{
+                        conditions: [{
+                            variable: 'title',
+                            value: 'mrs',
+                            compare: '='
+                        }],
+                        action: 'show'
+                    }]
                 }
             }, {
                 type: 'email',
