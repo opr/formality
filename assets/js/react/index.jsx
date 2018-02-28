@@ -3,12 +3,17 @@ import ReactDOM from 'react-dom'
 import {AppContainer} from 'react-hot-loader'
 import Formality from './Formality/Formality';
 import {testForm} from "./Formality/Logic/testForm";
+import {whyDidYouUpdate} from 'why-did-you-update';
 
 const getRenderFunc = app => {
   return () => {
       render(app.component, app.element, app.name);
   }
 };
+
+if(process.env.NODE_ENV !== 'production') {
+  //whyDidYouUpdate(React);
+}
 
 const render = (Component, element, name) => {
     ReactDOM.render(

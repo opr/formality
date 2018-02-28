@@ -64,6 +64,7 @@
     "webpack-dev-server": "^2.11.1",
     "webpack-hot-middleware": "^2.21.0",
     "webpack-stream": "^4.0.0",
+    "why-did-you-update": "^0.1.1",
     "write-file-webpack-plugin": "^4.2.0"
   }
 }

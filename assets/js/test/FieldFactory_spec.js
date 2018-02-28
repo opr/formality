@@ -31,21 +31,4 @@ describe('Field Factory', () => {
         let formPage = mount(<Provider store={store}>{selectField}</Provider>);
         expect(formPage.find(SelectField).length).to.equal(1);
     });
-
-    it('has the correct default validation message when one is not supplied', () => {
-        const textField = mount(<Provider store={store}>{FieldFactory.makeField(Map({
-            type: 'text',
-            name: 'name'
-        }))}</Provider>);
-        expect(textField.find(TextField).props().validationMessages).to.contain('Invalid value');
-    });
-
-    it('has the correct validation message when one is supplied', () => {
-        const textField = mount(<Provider store={store}>{FieldFactory.makeField(Map({
-            type: 'text',
-            name: 'name',
-            validation: Map({validationMessage: 'wrong value'})
-        }))}</Provider>);
-        expect(textField.find(TextField).props().validationMessages).to.contain('wrong value');
-    });
 });

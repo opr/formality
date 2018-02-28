@@ -3,14 +3,16 @@ import {connect} from 'react-redux';
 import * as actionCreators from './Logic/actions';
 import ValidationLabel from './ValidationLabel';
 import {handleChange} from './Logic/validator';
-import {fromJS, List} from "immutable";
+import {fromJS, is, List} from "immutable";
+import {generateValidationFunction, generateValidationMessages} from './Logic/validator';
 
-class TextField extends React.Component {
+export class TextField extends React.Component {
 
     constructor(props) {
         super();
-        let validationMessages = props.validationMessages || List(['Invalid value']);
-        let validationFunction = props.validationFunction || (() => { return {valid: true, message: 'Invalid value'} });
+        let validationMessages = props.validation ? generateValidationMessages(fromJS(JSON.parse(props.validation))) : List(['Invalid value']);
+        console.log(validationMessages);
+        let validationFunction = generateValidationFunction(fromJS(props.validation));
         const validationResult = validationFunction(props.value);
 
         this.state = {
@@ -33,6 +35,7 @@ class TextField extends React.Component {
                 <label htmlFor={'form-row__' + this.props.name}>{this.props.label}</label>
                 <input value={this.state.value} onChange={e => this.onChangeHandler(this.props.name, e.target.value)}
                        type={this.props.type}
+                       autoComplete={'off'}
                        placeholder={this.props.placeholder}
                        className={'input --text --' + this.props.type}
                        required={this.props.required}
