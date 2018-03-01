@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0b7e9a390b918ef1466e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4d8f2bc871b920627878"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -1714,6 +1714,18 @@ function generateValidationMessages(validation) {
 
 function generateValidationFunction(rules) {
 
+    if (typeof rules === 'string') {
+        try {
+            rules = JSON.parse(rules);
+        } catch (e) {
+            return { valid: true };
+        }
+    }
+
+    if (!(0, _immutable.isImmutable)(rules)) {
+        rules = (0, _immutable.fromJS)(rules);
+    }
+
     return (0, _immutable.isImmutable)(rules) ? function (value) {
         var valid = void 0,
             invalidRule = -1;
@@ -1769,6 +1781,7 @@ function generateValidationFunction(rules) {
 
 function handleChange(name, value, that) {
     var validationResult = that.state.validationFunction(value);
+    console.log(validationResult);
     that.setState({
         value: value,
         dirty: true,
@@ -2065,7 +2078,6 @@ var TextField = exports.TextField = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this));
 
         var validationMessages = props.validation ? (0, _validator.generateValidationMessages)((0, _immutable.fromJS)(JSON.parse(props.validation))) : (0, _immutable.List)(['Invalid value']);
-        console.log(validationMessages);
         var validationFunction = (0, _validator.generateValidationFunction)((0, _immutable.fromJS)(props.validation));
         var validationResult = validationFunction(props.value);
 

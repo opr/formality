@@ -11,7 +11,6 @@ export class TextField extends React.Component {
     constructor(props) {
         super();
         let validationMessages = props.validation ? generateValidationMessages(fromJS(JSON.parse(props.validation))) : List(['Invalid value']);
-        console.log(validationMessages);
         let validationFunction = generateValidationFunction(fromJS(props.validation));
         const validationResult = validationFunction(props.value);
 

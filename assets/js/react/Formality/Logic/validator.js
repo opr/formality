@@ -1,4 +1,4 @@
-import {isImmutable, Map, List} from 'immutable';
+import {isImmutable, Map, List, fromJS} from 'immutable';
 
 export function validateEmail(email) {
     return email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/) !== null;
@@ -38,6 +38,19 @@ export function generateValidationMessages(validation) {
 
 export function generateValidationFunction(rules) {
 
+  if(typeof rules === 'string') {
+    try {
+      rules = JSON.parse(rules);
+    }
+    catch(e) {
+      return {valid: true};
+    }
+  }
+
+  if(!isImmutable(rules)) {
+    rules = fromJS(rules);
+  }
+
     return isImmutable(rules) ? value => {
         let valid,
             invalidRule = -1;
@@ -70,6 +83,7 @@ export function generateValidationFunction(rules) {
 
 export function handleChange(name, value, that) {
     const validationResult = that.state.validationFunction(value);
+    console.log(validationResult);
     that.setState({
         value: value,
         dirty: true,
