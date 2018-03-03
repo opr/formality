@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4d8f2bc871b920627878"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b24eb0f8b0699fe25836"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -809,7 +809,7 @@ executePageFunctions();
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -833,126 +833,153 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var FieldFactory = function () {
-    function FieldFactory() {
-        _classCallCheck(this, FieldFactory);
-    }
+  function FieldFactory() {
+    _classCallCheck(this, FieldFactory);
+  }
 
-    _createClass(FieldFactory, null, [{
-        key: 'shouldFieldBeShown',
-        value: function shouldFieldBeShown(field, variables) {
-            var display = true;
-            if (field.has('displayRules')) {
-                if (field.get('displayRules').has('hideByDefault')) {
-                    display = false;
+  _createClass(FieldFactory, null, [{
+    key: 'shouldFieldBeShown',
+    value: function shouldFieldBeShown(field, variables) {
+      var display = true;
+      if (field.has('displayRules')) {
+        if (field.get('displayRules').has('hideByDefault')) {
+          display = false;
+        }
+
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = field.getIn(['displayRules', 'ruleSets'], []).values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var ruleSet = _step.value;
+
+            if (ruleSet.has('conditions')) {
+              //number of conditions
+              var _iteratorNormalCompletion2 = true;
+              var _didIteratorError2 = false;
+              var _iteratorError2 = undefined;
+
+              try {
+                for (var _iterator2 = ruleSet.get('conditions').values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                  var condition = _step2.value;
+
+
+                  var variableToCheck = condition.get('variable', null),
+                      compare = condition.get('compare', '='),
+                      valueToCheck = condition.get('value', true);
+                  switch (compare) {
+                    case '=':
+                      display = variables.get(variableToCheck, null) === valueToCheck;
+                      break;
+                    case '!=':
+                      display = variables.get(variableToCheck, null) !== valueToCheck;
+                      break;
+                    case '>':
+                      display = variables.get(variableToCheck, null) > valueToCheck;
+                      break;
+                    case '>=':
+                      display = variables.get(variableToCheck, null) >= valueToCheck;
+                      break;
+                    case '<':
+                      display = variables.get(variableToCheck, null) < valueToCheck;
+                      break;
+                    case '<=':
+                      display = variables.get(variableToCheck, null) <= valueToCheck;
+                      break;
+                    default:
+                      display = false;
+                  }
                 }
-
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
-
+              } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+              } finally {
                 try {
-                    for (var _iterator = field.getIn(['displayRules', 'ruleSets'], []).values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                        var ruleSet = _step.value;
-
-                        if (ruleSet.has('conditions')) {
-                            //number of conditions
-                            var _iteratorNormalCompletion2 = true;
-                            var _didIteratorError2 = false;
-                            var _iteratorError2 = undefined;
-
-                            try {
-                                for (var _iterator2 = ruleSet.get('conditions').values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                                    var condition = _step2.value;
-                                }
-                            } catch (err) {
-                                _didIteratorError2 = true;
-                                _iteratorError2 = err;
-                            } finally {
-                                try {
-                                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                                        _iterator2.return();
-                                    }
-                                } finally {
-                                    if (_didIteratorError2) {
-                                        throw _iteratorError2;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
+                  if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                    _iterator2.return();
+                  }
                 } finally {
-                    try {
-                        if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
-                        }
-                    } finally {
-                        if (_didIteratorError) {
-                            throw _iteratorError;
-                        }
-                    }
+                  if (_didIteratorError2) {
+                    throw _iteratorError2;
+                  }
                 }
+              }
             }
-            return display;
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
         }
-    }, {
-        key: 'makeField',
-        value: function makeField(field) {
-            var variables = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      }
+      return display;
+    }
+  }, {
+    key: 'makeField',
+    value: function makeField(field) {
+      var variables = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-            var inner = null,
-                validation = JSON.stringify(field.get('validation', (0, _immutable.List)([])).toJS());
+      var inner = null,
+          validation = JSON.stringify(field.get('validation', (0, _immutable.List)([])).toJS());
 
-            //check if field should be shown
-            if (!FieldFactory.shouldFieldBeShown(field, variables)) {
-                return null;
-            }
+      //check if field should be shown
+      if (!FieldFactory.shouldFieldBeShown(field, variables)) {
+        return null;
+      }
 
-            switch (field.get('type')) {
-                case 'text':
-                    inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
-                        label: field.get('label'),
-                        type: 'text',
-                        validation: validation,
-                        required: field.getIn(['validation', 'required'], false) });
-                    break;
-                case 'email':
-                    inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
-                        label: field.get('label'),
-                        type: 'email',
-                        validation: validation,
-                        required: field.getIn(['validation', 'required'], false) });
-                    break;
-                case 'password':
-                    inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
-                        label: field.get('label'),
-                        type: 'password',
-                        validation: validation,
-                        required: field.getIn(['validation', 'required'], false) });
-                    break;
-                case 'select':
-                    inner = _react2.default.createElement(_SelectField2.default, { name: field.get('name'), key: field.get('name'),
-                        label: field.get('label'),
-                        options: field.get('options'),
-                        defaultValue: field.get('defaultValue', null),
-                        validation: validation,
-                        required: field.getIn(['validation', 'required'], false) });
-                    break;
-                default:
-                    inner = null;
-            }
+      switch (field.get('type')) {
+        case 'text':
+          inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
+            label: field.get('label'),
+            type: 'text',
+            validation: validation,
+            required: field.getIn(['validation', 'required'], false) });
+          break;
+        case 'email':
+          inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
+            label: field.get('label'),
+            type: 'email',
+            validation: validation,
+            required: field.getIn(['validation', 'required'], false) });
+          break;
+        case 'password':
+          inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
+            label: field.get('label'),
+            type: 'password',
+            validation: validation,
+            required: field.getIn(['validation', 'required'], false) });
+          break;
+        case 'select':
+          inner = _react2.default.createElement(_SelectField2.default, { name: field.get('name'), key: field.get('name'),
+            label: field.get('label'),
+            options: field.get('options'),
+            defaultValue: field.get('defaultValue', null),
+            validation: validation,
+            required: field.getIn(['validation', 'required'], false) });
+          break;
+        default:
+          inner = null;
+      }
 
-            return _react2.default.createElement(
-                'div',
-                { key: 'form-row__' + field.get('name'), className: 'form-row' },
-                inner
-            );
-        }
-    }]);
+      return _react2.default.createElement(
+        'div',
+        { key: 'form-row__' + field.get('name'), className: 'form-row' },
+        inner
+      );
+    }
+  }]);
 
-    return FieldFactory;
+  return FieldFactory;
 }();
 
 exports.default = FieldFactory;
@@ -1550,109 +1577,109 @@ function getFormAttributes() {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 var testForm = exports.testForm = {
-    formName: 'testForm',
-    formEndpoint: '/testEndpoint',
-    formMethod: 'post',
-    formAction: '/testAction',
-    pages: [{
-        allowInvalidProgression: false,
-        name: 'Basic Info',
-        sections: [{
+  formName: 'testForm',
+  formEndpoint: '/testEndpoint',
+  formMethod: 'post',
+  formAction: '/testAction',
+  pages: [{
+    allowInvalidProgression: false,
+    name: 'Basic Info',
+    sections: [{
 
-            name: 'Personal Details',
-            fields: [{
-                type: 'select',
-                name: 'title',
-                label: 'Title',
-                options: {
-                    mr: 'Mr.',
-                    mrs: 'Mrs.',
-                    miss: 'Miss',
-                    sir: 'Sir'
-                },
-                defaultValue: 'Please select…',
-                validation: {
-                    required: true
-                }
-            }, {
-                type: 'text',
-                label: 'Maiden name (if applicable)',
-                name: 'maiden-name',
-                displayRules: {
-                    hideByDefault: true,
-                    ruleSets: [{
-                        conditions: [{
-                            variable: 'title',
-                            value: 'mrs',
-                            compare: '='
-                        }],
-                        action: 'show'
-                    }]
-                }
-            }, {
-                type: 'email',
-                label: 'Your email address',
-                name: 'email-address',
-                validation: {
-                    required: true,
-                    type: 'email'
-                }
-            }, {
-                type: 'password',
-                label: 'Password',
-                validation: [{
-                    minLength: 8,
-                    regex: /(?=.*[A-Z])/,
-                    validationMessage: 'Please make sure the password is at least 8 characters long and contains a capital letter'
-                }, {
-                    maxLength: 12,
-                    validationMessage: 'Don\'t make your passwords too long'
-                }]
-            }]
-        }]
-    }, {
-        name: 'Payment Details',
-        sections: [{
-            name: 'Credit Card',
-            fields: [{
-                type: 'text',
-                name: 'card-type'
-            }]
+      name: 'Personal Details',
+      fields: [{
+        type: 'select',
+        name: 'title',
+        label: 'Title',
+        options: {
+          mr: 'Mr.',
+          mrs: 'Mrs.',
+          miss: 'Miss',
+          sir: 'Sir'
+        },
+        defaultValue: 'Please select…',
+        validation: {
+          required: true
+        }
+      }, {
+        type: 'text',
+        label: 'Maiden name (if applicable)',
+        name: 'maiden-name',
+        displayRules: {
+          hideByDefault: true,
+          ruleSets: [{
+            conditions: [{
+              variable: 'title',
+              value: 'mrs',
+              compare: '='
+            }],
+            action: 'show'
+          }]
+        }
+      }, {
+        type: 'email',
+        label: 'Your email address',
+        name: 'email-address',
+        validation: {
+          required: true,
+          type: 'email'
+        }
+      }, {
+        type: 'password',
+        label: 'Password',
+        validation: [{
+          minLength: 8,
+          regex: /(?=.*[A-Z])/,
+          validationMessage: 'Please make sure the password is at least 8 characters long and contains a capital letter'
         }, {
-            name: 'Bank Account',
-            fields: [{
-                type: 'text',
-                name: 'bank-name'
-            }]
+          maxLength: 12,
+          validationMessage: 'Don\'t make your passwords too long'
         }]
-    }, {
-        name: 'Education Details',
-        sections: [{
-            name: 'School',
-            fields: [{
-                type: 'text',
-                name: 'school-name'
-            }]
-        }, {
-            name: 'University',
-            fields: [{
-                type: 'text',
-                name: 'university-name'
-            }]
-        }]
-    }, {
-        name: 'Contat Details',
-        sections: [{
-            name: 'Home Address',
-            fields: [{
-                type: 'text',
-                name: 'house-number'
-            }]
-        }]
+      }]
     }]
+  }, {
+    name: 'Payment Details',
+    sections: [{
+      name: 'Credit Card',
+      fields: [{
+        type: 'text',
+        name: 'card-type'
+      }]
+    }, {
+      name: 'Bank Account',
+      fields: [{
+        type: 'text',
+        name: 'bank-name'
+      }]
+    }]
+  }, {
+    name: 'Education Details',
+    sections: [{
+      name: 'School',
+      fields: [{
+        type: 'text',
+        name: 'school-name'
+      }]
+    }, {
+      name: 'University',
+      fields: [{
+        type: 'text',
+        name: 'university-name'
+      }]
+    }]
+  }, {
+    name: 'Contat Details',
+    sections: [{
+      name: 'Home Address',
+      fields: [{
+        type: 'text',
+        name: 'house-number'
+      }]
+    }]
+  }]
 };
 
 /***/ }),
@@ -1664,7 +1691,7 @@ var testForm = exports.testForm = {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.validateEmail = validateEmail;
 exports.validateRegex = validateRegex;
@@ -1677,119 +1704,123 @@ exports.handleChange = handleChange;
 var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
 
 function validateEmail(email) {
-    return email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/) !== null;
+  return email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/) !== null;
 }
 
 function validateRegex(text, pattern) {
-    return text.match(pattern) !== null;
+  //do the below because the jsonification of the rules screws things up a wee bit
+  if (typeof pattern === 'string' || pattern instanceof String) {
+    var fragments = pattern.match(/\/(.*?)\/([gimy])?$/);
+    pattern = new RegExp(fragments[1], fragments[2] || ''); //rehydrates the regex
+  }
+  return text.match(pattern) !== null;
 }
 
 function validateMinLength(str, length) {
-    return str.length >= length;
+  return str.length >= length;
 }
 
 function validateMaxLength(str, length) {
-    return str.length <= length;
+  return str.length <= length;
 }
 
 function generateValidationMessages(validation) {
 
-    var defaultValidationMessage = 'Invalid value';
-    var validationMessages = [];
+  var defaultValidationMessage = 'Invalid value';
+  var validationMessages = [];
 
-    if (_immutable.Map.isMap(validation)) {
-        validation = (0, _immutable.List)([validation]);
-    }
+  if (_immutable.Map.isMap(validation)) {
+    validation = (0, _immutable.List)([validation]);
+  }
 
-    validation.map(function (e) {
-        validationMessages.push(e.get('validationMessage', defaultValidationMessage));
-    });
+  validation.map(function (e) {
+    validationMessages.push(e.get('validationMessage', defaultValidationMessage));
+  });
 
-    if (validationMessages.length === 0) {
-        validationMessages = [defaultValidationMessage];
-    }
+  if (validationMessages.length === 0) {
+    validationMessages = [defaultValidationMessage];
+  }
 
-    return (0, _immutable.List)(validationMessages);
+  return (0, _immutable.List)(validationMessages);
 }
 
 function generateValidationFunction(rules) {
 
-    if (typeof rules === 'string') {
-        try {
-            rules = JSON.parse(rules);
-        } catch (e) {
-            return { valid: true };
-        }
+  if (typeof rules === 'string') {
+    try {
+      rules = JSON.parse(rules);
+    } catch (e) {
+      return { valid: true };
+    }
+  }
+
+  if (!(0, _immutable.isImmutable)(rules)) {
+    rules = (0, _immutable.fromJS)(rules);
+  }
+
+  return (0, _immutable.isImmutable)(rules) ? function (value) {
+    var valid = void 0,
+        invalidRule = -1;
+
+    if (_immutable.Map.isMap(rules)) {
+      rules = (0, _immutable.List)([rules]);
     }
 
-    if (!(0, _immutable.isImmutable)(rules)) {
-        rules = (0, _immutable.fromJS)(rules);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = rules.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var rule = _step.value;
+
+        var ruleNumber = rule[0];
+        rule = rule[1];
+        var maxLength = rule.get('maxLength', -1);
+        valid = validateMinLength(value, rule.get('minLength', 0)) && (maxLength === -1 || validateMaxLength(value, maxLength));
+        if (rule.get('type') === 'email') {
+          valid = valid && validateEmail(value);
+        }
+        if (rule.has('regex', '')) {
+          valid = valid && validateRegex(value, rule.get('regex'));
+        }
+        if (!valid) {
+          invalidRule = ruleNumber;
+          break;
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
     }
 
-    return (0, _immutable.isImmutable)(rules) ? function (value) {
-        var valid = void 0,
-            invalidRule = -1;
-
-        if (_immutable.Map.isMap(rules)) {
-            rules = (0, _immutable.List)([rules]);
-        }
-
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-            for (var _iterator = rules.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var rule = _step.value;
-
-                var ruleNumber = rule[0];
-                rule = rule[1];
-                var maxLength = rule.get('maxLength', -1);
-                valid = validateMinLength(value, rule.get('minLength', 0)) && (maxLength === -1 || validateMaxLength(value, maxLength));
-                if (rule.get('type') === 'email') {
-                    valid = valid && validateEmail(value);
-                }
-                if (rule.has('regex', '')) {
-                    valid = valid && validateRegex(value, rule.get('regex'));
-                }
-                if (!valid) {
-                    invalidRule = ruleNumber;
-                    break;
-                }
-            }
-        } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-        } finally {
-            try {
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                    _iterator.return();
-                }
-            } finally {
-                if (_didIteratorError) {
-                    throw _iteratorError;
-                }
-            }
-        }
-
-        return { valid: valid, invalidRule: invalidRule };
-    } : function () {
-        return { valid: true //return always valid if there are no rules
-        };
+    return { valid: valid, invalidRule: invalidRule };
+  } : function () {
+    return { valid: true //return always valid if there are no rules
     };
+  };
 }
 
 function handleChange(name, value, that) {
-    var validationResult = that.state.validationFunction(value);
-    console.log(validationResult);
-    that.setState({
-        value: value,
-        dirty: true,
-        valid: validationResult.valid,
-        validationMessage: that.state.validationMessages.get(validationResult.invalidRule)
-    });
-    that.props.setValue(name, value);
-    //that.props.setPageValidity(name, validationResult.valid);
+  var validationResult = that.state.validationFunction(value);
+  that.setState({
+    value: value,
+    dirty: true,
+    valid: validationResult.valid,
+    validationMessage: that.state.validationMessages.get(validationResult.invalidRule)
+  });
+  that.props.setValue(name, value);
+  //that.props.setPageValidity(name, validationResult.valid);
 }
 
 /***/ }),
@@ -2229,6 +2260,8 @@ var _whyDidYouUpdate = __webpack_require__("./node_modules/why-did-you-update/li
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+RegExp.prototype.toJSON = RegExp.prototype.toString;
+
 var getRenderFunc = function getRenderFunc(app) {
     return function () {
         render(app.component, app.element, app.name);
@@ -2236,7 +2269,7 @@ var getRenderFunc = function getRenderFunc(app) {
 };
 
 if (process.env.NODE_ENV !== 'production') {
-    //whyDidYouUpdate(React);
+    (0, _whyDidYouUpdate.whyDidYouUpdate)(_react2.default);
 }
 
 var render = function render(Component, element, name) {

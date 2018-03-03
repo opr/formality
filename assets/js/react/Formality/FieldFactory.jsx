@@ -5,72 +5,98 @@ import SelectField from "./SelectField";
 
 export default class FieldFactory {
 
-    static shouldFieldBeShown(field, variables) {
-        let display = true;
-        if(field.has('displayRules')) {
-            if(field.get('displayRules').has('hideByDefault')) {
+  static shouldFieldBeShown(field, variables) {
+    let display = true;
+    if (field.has('displayRules')) {
+      if (field.get('displayRules').has('hideByDefault')) {
+        display = false;
+      }
+
+      for (const ruleSet of field.getIn(['displayRules', 'ruleSets'], []).values()) {
+        if (ruleSet.has('conditions')) {
+          //number of conditions
+          for (const condition of ruleSet.get('conditions').values()) {
+            
+            const variableToCheck = condition.get('variable', null),
+              compare = condition.get('compare', '='),
+              valueToCheck = condition.get('value', true);
+            switch (compare) {
+              case '=' :
+                display = variables.get(variableToCheck, null) === valueToCheck;
+                break;
+              case '!=' :
+                display = variables.get(variableToCheck, null) !== valueToCheck;
+                break;
+              case '>' :
+                display = variables.get(variableToCheck, null) > valueToCheck;
+                break;
+              case '>=' :
+                display = variables.get(variableToCheck, null) >= valueToCheck;
+                break;
+              case '<' :
+                display = variables.get(variableToCheck, null) < valueToCheck;
+                break;
+              case '<=' :
+                display = variables.get(variableToCheck, null) <= valueToCheck;
+                break;
+              default:
                 display = false;
             }
-
-            for(const ruleSet of field.getIn(['displayRules', 'ruleSets'], []).values()) {
-                if(ruleSet.has('conditions')) {
-                    //number of conditions
-                    for(const condition of ruleSet.get('conditions').values()) {
-                    }
-                }
-            }
+          }
         }
-        return display;
+      }
+    }
+    return display;
+  }
+
+
+  static makeField(field, variables = null) {
+    let inner = null,
+      validation = JSON.stringify(field.get('validation', List([])).toJS());
+
+    //check if field should be shown
+    if (!FieldFactory.shouldFieldBeShown(field, variables)) {
+      return null;
     }
 
-
-    static makeField(field, variables = null) {
-        let inner = null,
-            validation = JSON.stringify(field.get('validation', List([])).toJS());
-
-        //check if field should be shown
-        if(!FieldFactory.shouldFieldBeShown(field, variables)) {
-            return null;
-        }
-
-        switch (field.get('type')) {
-            case 'text':
-                inner =
-                    <TextField name={field.get('name')} key={field.get('name')}
-                               label={field.get('label')}
-                               type={'text'}
-                               validation={validation}
-                               required={field.getIn(['validation', 'required'], false)}/>;
-                break;
-          case 'email':
-                inner =
-                    <TextField name={field.get('name')} key={field.get('name')}
-                               label={field.get('label')}
-                               type={'email'}
-                               validation={validation}
-                               required={field.getIn(['validation', 'required'], false)}/>;
-                break;
-          case 'password':
-                inner =
-                    <TextField name={field.get('name')} key={field.get('name')}
-                               label={field.get('label')}
-                               type={'password'}
-                               validation={validation}
-                               required={field.getIn(['validation', 'required'], false)}/>;
-                break;
-            case 'select':
-                inner =
-                    <SelectField name={field.get('name')} key={field.get('name')}
-                                 label={field.get('label')}
-                                 options={field.get('options')}
-                                 defaultValue={field.get('defaultValue', null)}
-                                 validation={validation}
-                                 required={field.getIn(['validation', 'required'], false)}/>;
-                break;
-            default :
-                inner = null;
-        }
-
-        return (<div key={'form-row__' + field.get('name')} className={'form-row'}>{inner}</div>);
+    switch (field.get('type')) {
+      case 'text':
+        inner =
+          <TextField name={field.get('name')} key={field.get('name')}
+                     label={field.get('label')}
+                     type={'text'}
+                     validation={validation}
+                     required={field.getIn(['validation', 'required'], false)}/>;
+        break;
+      case 'email':
+        inner =
+          <TextField name={field.get('name')} key={field.get('name')}
+                     label={field.get('label')}
+                     type={'email'}
+                     validation={validation}
+                     required={field.getIn(['validation', 'required'], false)}/>;
+        break;
+      case 'password':
+        inner =
+          <TextField name={field.get('name')} key={field.get('name')}
+                     label={field.get('label')}
+                     type={'password'}
+                     validation={validation}
+                     required={field.getIn(['validation', 'required'], false)}/>;
+        break;
+      case 'select':
+        inner =
+          <SelectField name={field.get('name')} key={field.get('name')}
+                       label={field.get('label')}
+                       options={field.get('options')}
+                       defaultValue={field.get('defaultValue', null)}
+                       validation={validation}
+                       required={field.getIn(['validation', 'required'], false)}/>;
+        break;
+      default :
+        inner = null;
     }
+
+    return (<div key={'form-row__' + field.get('name')} className={'form-row'}>{inner}</div>);
+  }
 }

@@ -4,6 +4,7 @@ import {AppContainer} from 'react-hot-loader'
 import Formality from './Formality/Formality';
 import {testForm} from "./Formality/Logic/testForm";
 import {whyDidYouUpdate} from 'why-did-you-update';
+RegExp.prototype.toJSON = RegExp.prototype.toString;
 
 const getRenderFunc = app => {
   return () => {
@@ -12,7 +13,7 @@ const getRenderFunc = app => {
 };
 
 if(process.env.NODE_ENV !== 'production') {
-  //whyDidYouUpdate(React);
+  whyDidYouUpdate(React);
 }
 
 const render = (Component, element, name) => {
