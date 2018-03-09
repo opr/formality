@@ -16,7 +16,7 @@ export default class FieldFactory {
         if (ruleSet.has('conditions')) {
           //number of conditions
           for (const condition of ruleSet.get('conditions').values()) {
-            
+
             const variableToCheck = condition.get('variable', null),
               compare = condition.get('compare', '='),
               valueToCheck = condition.get('value', true);

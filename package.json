@@ -1,5 +1,5 @@
 {
-  "name": "react-hot-loader-minimal-boilerplate",
+  "name": "formality",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,9 +12,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate/issues"
+    "url": "https://github.com/opr/formality/issues"
   },
-  "homepage": "https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate#readme",
+  "homepage": "https://github.com/opr/formality/",
   "dependencies": {
     "immutable": "^4.0.0-rc.9",
     "react": "^16.2.0",
