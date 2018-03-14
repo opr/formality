@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/opr/formality.svg?branch=master)](https://travis-ci.org/opr/formality)
 
 #### A note to Users looking for the deprecated serialization library Formality
-The above library has been renamed, and users in search of this should go to [Surreal]( https://www.npmjs.com/package/surreal) which replaces it. 
+The above library has been superseded by [Surreal]( https://www.npmjs.com/package/surreal) and users looking for it should visit [Surreal]( https://www.npmjs.com/package/surreal).
 
 # Installation
 
