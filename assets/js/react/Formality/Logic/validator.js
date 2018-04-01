@@ -6,7 +6,7 @@ export function validateEmail(email) {
 
 export function validateRegex(text, pattern) {
   //do the below because the jsonification of the rules screws things up a wee bit
-  if(typeof pattern === 'string' || pattern instanceof String) {
+  if (typeof pattern === 'string' || pattern instanceof String) {
     const fragments = pattern.match(/\/(.*?)\/([gimy])?$/);
     pattern = new RegExp(fragments[1], fragments[2] || ''); //rehydrates the regex
   }
@@ -41,7 +41,7 @@ export function generateValidationMessages(validation) {
   return List(validationMessages);
 }
 
-export function generateValidationFunction(rules) {
+export function generateValidationFunction(rules, subscriptions = null) {
 
   if (typeof rules === 'string') {
     try {
@@ -56,7 +56,11 @@ export function generateValidationFunction(rules) {
     rules = fromJS(rules);
   }
 
-  return isImmutable(rules) ? value => {
+  if(!isImmutable(subscriptions)) {
+    subscriptions = List();
+  }
+
+  return isImmutable(rules) ? (value, subscriptions = null) => {
     let valid,
       invalidRule = -1;
 
@@ -75,6 +79,25 @@ export function generateValidationFunction(rules) {
       if (rule.has('regex', '')) {
         valid = valid && validateRegex(value, rule.get('regex'));
       }
+      if (rule.has('equalTo')) {
+        try {
+          if(typeof subscriptions !== 'object')
+          subscriptions = fromJS(JSON.parse(subscriptions));
+        }
+        catch(e) {
+          console.error(e);
+        }
+
+        if(!isImmutable(subscriptions)) {
+          break;
+        }
+
+        if(subscriptions.count()) {
+          for(let s of subscriptions.values()) {
+            valid = valid && (s.get('value') === value);
+          }
+        }
+      }
       if (!valid) {
         invalidRule = ruleNumber;
         break;
@@ -86,8 +109,36 @@ export function generateValidationFunction(rules) {
   };
 }
 
-export function handleChange(name, value, that) {
-  const validationResult = that.state.validationFunction(value);
+export function getFieldNamesToSubscribeTo(field) {
+
+  let subscriptions = field.get('validation', List([])),
+    subscribedVariables = [];
+
+  for (let e of subscriptions.values()) {
+    if (isImmutable(e)) {
+      if (Map.isMap(e)) {
+        for (let c of e.entries()) {
+          if (c[0] === 'equalTo' || c[0] === 'notEqualTo') {
+            subscribedVariables.push(c[1]);
+          }
+        }
+      }
+    }
+  }
+  return subscribedVariables;
+}
+
+export function getSubscribedVariablesList(state, variables) {
+  //console.log(state, variables);
+  let variableList = [];
+  for(let v of variables) {
+    variableList.push({key: v, value: state.getIn(['variables', v])});
+  }
+  return variableList;
+}
+
+export function handleChange(name, value, that, subscriptions = null) {
+  const validationResult = that.state.validationFunction(value, subscriptions);
   that.setState({
     value: value,
     dirty: true,

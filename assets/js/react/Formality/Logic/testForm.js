@@ -57,6 +57,7 @@ export const testForm = {
             {
               type: 'password',
               label: 'Password',
+              name: 'password',
               validation: [
                 {
                   minLength: 8,
@@ -66,6 +67,26 @@ export const testForm = {
                 {
                   maxLength: 12,
                   validationMessage: 'Don\'t make your passwords too long'
+                }
+              ]
+            },
+            {
+              type: 'password',
+              label: 'Repeat password',
+              name: 'repeat-password',
+              validation: [
+                {
+                  minLength: 8,
+                  regex: /(?=.*[A-Z])/,
+                  validationMessage: 'Please make sure the password is at least 8 characters long and contains a capital letter'
+                },
+                {
+                  maxLength: 12,
+                  validationMessage: 'Don\'t make your passwords too long'
+                },
+                {
+                  equalTo: 'password',
+                  validationMessage: 'Passwords must match'
                 }
               ]
             }
@@ -120,7 +141,7 @@ export const testForm = {
       ]
     },
     {
-      name: 'Contat Details',
+      name: 'Contact Details',
       sections: [
         {
           name: 'Home Address',

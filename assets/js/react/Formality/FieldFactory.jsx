@@ -1,7 +1,8 @@
 import React from 'react';
 import TextField from './TextField';
-import {Map, List} from 'immutable';
+import {Map, List, isImmutable} from 'immutable';
 import SelectField from "./SelectField";
+import {getFieldNamesToSubscribeTo} from './Logic/validator';
 
 export default class FieldFactory {
 
@@ -49,10 +50,10 @@ export default class FieldFactory {
     return display;
   }
 
-
   static makeField(field, variables = null) {
     let inner = null,
-      validation = JSON.stringify(field.get('validation', List([])).toJS());
+      validation = JSON.stringify(field.get('validation', List([])).toJS()),
+      subscriptions = JSON.stringify(getFieldNamesToSubscribeTo(field));
 
     //check if field should be shown
     if (!FieldFactory.shouldFieldBeShown(field, variables)) {
@@ -65,6 +66,7 @@ export default class FieldFactory {
           <TextField name={field.get('name')} key={field.get('name')}
                      label={field.get('label')}
                      type={'text'}
+                     subscriptions={subscriptions}
                      validation={validation}
                      required={field.getIn(['validation', 'required'], false)}/>;
         break;
@@ -73,6 +75,7 @@ export default class FieldFactory {
           <TextField name={field.get('name')} key={field.get('name')}
                      label={field.get('label')}
                      type={'email'}
+                     subscriptions={subscriptions}
                      validation={validation}
                      required={field.getIn(['validation', 'required'], false)}/>;
         break;
@@ -81,6 +84,7 @@ export default class FieldFactory {
           <TextField name={field.get('name')} key={field.get('name')}
                      label={field.get('label')}
                      type={'password'}
+                     subscriptions={subscriptions}
                      validation={validation}
                      required={field.getIn(['validation', 'required'], false)}/>;
         break;
@@ -88,6 +92,7 @@ export default class FieldFactory {
         inner =
           <SelectField name={field.get('name')} key={field.get('name')}
                        label={field.get('label')}
+                       subscriptions={subscriptions}
                        options={field.get('options')}
                        defaultValue={field.get('defaultValue', null)}
                        validation={validation}

@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b24eb0f8b0699fe25836"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "72743dc0f27c92653a3e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -828,6 +828,8 @@ var _SelectField = __webpack_require__("./assets/js/react/Formality/SelectField.
 
 var _SelectField2 = _interopRequireDefault(_SelectField);
 
+var _validator = __webpack_require__("./assets/js/react/Formality/Logic/validator.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -930,7 +932,8 @@ var FieldFactory = function () {
       var variables = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
       var inner = null,
-          validation = JSON.stringify(field.get('validation', (0, _immutable.List)([])).toJS());
+          validation = JSON.stringify(field.get('validation', (0, _immutable.List)([])).toJS()),
+          subscriptions = JSON.stringify((0, _validator.getFieldNamesToSubscribeTo)(field));
 
       //check if field should be shown
       if (!FieldFactory.shouldFieldBeShown(field, variables)) {
@@ -942,6 +945,7 @@ var FieldFactory = function () {
           inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
             label: field.get('label'),
             type: 'text',
+            subscriptions: subscriptions,
             validation: validation,
             required: field.getIn(['validation', 'required'], false) });
           break;
@@ -949,6 +953,7 @@ var FieldFactory = function () {
           inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
             label: field.get('label'),
             type: 'email',
+            subscriptions: subscriptions,
             validation: validation,
             required: field.getIn(['validation', 'required'], false) });
           break;
@@ -956,12 +961,14 @@ var FieldFactory = function () {
           inner = _react2.default.createElement(_TextField2.default, { name: field.get('name'), key: field.get('name'),
             label: field.get('label'),
             type: 'password',
+            subscriptions: subscriptions,
             validation: validation,
             required: field.getIn(['validation', 'required'], false) });
           break;
         case 'select':
           inner = _react2.default.createElement(_SelectField2.default, { name: field.get('name'), key: field.get('name'),
             label: field.get('label'),
+            subscriptions: subscriptions,
             options: field.get('options'),
             defaultValue: field.get('defaultValue', null),
             validation: validation,
@@ -1630,6 +1637,7 @@ var testForm = exports.testForm = {
       }, {
         type: 'password',
         label: 'Password',
+        name: 'password',
         validation: [{
           minLength: 8,
           regex: /(?=.*[A-Z])/,
@@ -1637,6 +1645,21 @@ var testForm = exports.testForm = {
         }, {
           maxLength: 12,
           validationMessage: 'Don\'t make your passwords too long'
+        }]
+      }, {
+        type: 'password',
+        label: 'Repeat password',
+        name: 'repeat-password',
+        validation: [{
+          minLength: 8,
+          regex: /(?=.*[A-Z])/,
+          validationMessage: 'Please make sure the password is at least 8 characters long and contains a capital letter'
+        }, {
+          maxLength: 12,
+          validationMessage: 'Don\'t make your passwords too long'
+        }, {
+          equalTo: 'password',
+          validationMessage: 'Passwords must match'
         }]
       }]
     }]
@@ -1671,7 +1694,7 @@ var testForm = exports.testForm = {
       }]
     }]
   }, {
-    name: 'Contat Details',
+    name: 'Contact Details',
     sections: [{
       name: 'Home Address',
       fields: [{
@@ -1693,12 +1716,17 @@ var testForm = exports.testForm = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 exports.validateEmail = validateEmail;
 exports.validateRegex = validateRegex;
 exports.validateMinLength = validateMinLength;
 exports.validateMaxLength = validateMaxLength;
 exports.generateValidationMessages = generateValidationMessages;
 exports.generateValidationFunction = generateValidationFunction;
+exports.getFieldNamesToSubscribeTo = getFieldNamesToSubscribeTo;
+exports.getSubscribedVariablesList = getSubscribedVariablesList;
 exports.handleChange = handleChange;
 
 var _immutable = __webpack_require__("./node_modules/immutable/dist/immutable.es.js");
@@ -1745,6 +1773,8 @@ function generateValidationMessages(validation) {
 }
 
 function generateValidationFunction(rules) {
+  var subscriptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
 
   if (typeof rules === 'string') {
     try {
@@ -1758,7 +1788,13 @@ function generateValidationFunction(rules) {
     rules = (0, _immutable.fromJS)(rules);
   }
 
+  if (!(0, _immutable.isImmutable)(subscriptions)) {
+    subscriptions = (0, _immutable.List)();
+  }
+
   return (0, _immutable.isImmutable)(rules) ? function (value) {
+    var subscriptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
     var valid = void 0,
         invalidRule = -1;
 
@@ -1783,6 +1819,44 @@ function generateValidationFunction(rules) {
         }
         if (rule.has('regex', '')) {
           valid = valid && validateRegex(value, rule.get('regex'));
+        }
+        if (rule.has('equalTo')) {
+          try {
+            if ((typeof subscriptions === 'undefined' ? 'undefined' : _typeof(subscriptions)) !== 'object') subscriptions = (0, _immutable.fromJS)(JSON.parse(subscriptions));
+          } catch (e) {
+            console.error(e);
+          }
+
+          if (!(0, _immutable.isImmutable)(subscriptions)) {
+            break;
+          }
+
+          if (subscriptions.count()) {
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+              for (var _iterator2 = subscriptions.values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var s = _step2.value;
+
+                valid = valid && s.get('value') === value;
+              }
+            } catch (err) {
+              _didIteratorError2 = true;
+              _iteratorError2 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
+                }
+              } finally {
+                if (_didIteratorError2) {
+                  throw _iteratorError2;
+                }
+              }
+            }
+          }
         }
         if (!valid) {
           invalidRule = ruleNumber;
@@ -1811,8 +1885,103 @@ function generateValidationFunction(rules) {
   };
 }
 
+function getFieldNamesToSubscribeTo(field) {
+
+  var subscriptions = field.get('validation', (0, _immutable.List)([])),
+      subscribedVariables = [];
+
+  var _iteratorNormalCompletion3 = true;
+  var _didIteratorError3 = false;
+  var _iteratorError3 = undefined;
+
+  try {
+    for (var _iterator3 = subscriptions.values()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+      var e = _step3.value;
+
+      if ((0, _immutable.isImmutable)(e)) {
+        if (_immutable.Map.isMap(e)) {
+          var _iteratorNormalCompletion4 = true;
+          var _didIteratorError4 = false;
+          var _iteratorError4 = undefined;
+
+          try {
+            for (var _iterator4 = e.entries()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+              var c = _step4.value;
+
+              if (c[0] === 'equalTo' || c[0] === 'notEqualTo') {
+                subscribedVariables.push(c[1]);
+              }
+            }
+          } catch (err) {
+            _didIteratorError4 = true;
+            _iteratorError4 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                _iterator4.return();
+              }
+            } finally {
+              if (_didIteratorError4) {
+                throw _iteratorError4;
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (err) {
+    _didIteratorError3 = true;
+    _iteratorError3 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion3 && _iterator3.return) {
+        _iterator3.return();
+      }
+    } finally {
+      if (_didIteratorError3) {
+        throw _iteratorError3;
+      }
+    }
+  }
+
+  return subscribedVariables;
+}
+
+function getSubscribedVariablesList(state, variables) {
+  //console.log(state, variables);
+  var variableList = [];
+  var _iteratorNormalCompletion5 = true;
+  var _didIteratorError5 = false;
+  var _iteratorError5 = undefined;
+
+  try {
+    for (var _iterator5 = variables[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+      var v = _step5.value;
+
+      variableList.push({ key: v, value: state.getIn(['variables', v]) });
+    }
+  } catch (err) {
+    _didIteratorError5 = true;
+    _iteratorError5 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion5 && _iterator5.return) {
+        _iterator5.return();
+      }
+    } finally {
+      if (_didIteratorError5) {
+        throw _iteratorError5;
+      }
+    }
+  }
+
+  return variableList;
+}
+
 function handleChange(name, value, that) {
-  var validationResult = that.state.validationFunction(value);
+  var subscriptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+  var validationResult = that.state.validationFunction(value, subscriptions);
   that.setState({
     value: value,
     dirty: true,
@@ -2064,7 +2233,7 @@ exports.default = (0, _reactRedux.connect)(function (state, ownProps) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.TextField = undefined;
 
@@ -2101,72 +2270,76 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var TextField = exports.TextField = function (_React$Component) {
-    _inherits(TextField, _React$Component);
+  _inherits(TextField, _React$Component);
 
-    function TextField(props) {
-        _classCallCheck(this, TextField);
+  function TextField(props) {
+    _classCallCheck(this, TextField);
 
-        var _this = _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this));
+    var _this = _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this));
 
-        var validationMessages = props.validation ? (0, _validator.generateValidationMessages)((0, _immutable.fromJS)(JSON.parse(props.validation))) : (0, _immutable.List)(['Invalid value']);
-        var validationFunction = (0, _validator.generateValidationFunction)((0, _immutable.fromJS)(props.validation));
-        var validationResult = validationFunction(props.value);
+    var subscriptions = props.subscriptions != null ? JSON.parse(props.subscriptions) : null,
+        validationMessages = props.validation ? (0, _validator.generateValidationMessages)((0, _immutable.fromJS)(JSON.parse(props.validation))) : (0, _immutable.List)(['Invalid value']);
+    var validationFunction = (0, _validator.generateValidationFunction)((0, _immutable.fromJS)(props.validation));
+    var validationResult = validationFunction(props.value);
 
-        _this.state = _extends({}, props, {
-            value: props.value,
-            valid: validationResult.valid,
-            validationFunction: validationFunction,
-            validationMessages: validationMessages,
-            validationMessage: validationMessages.get(validationResult.invalidRule)
-        });
-        return _this;
+    _this.state = _extends({}, props, {
+      value: props.value,
+      valid: validationResult.valid,
+      validationFunction: validationFunction,
+      validationMessages: validationMessages,
+      validationMessage: validationMessages.get(validationResult.invalidRule),
+      subscriptions: subscriptions
+    });
+    return _this;
+  }
+
+  _createClass(TextField, [{
+    key: 'onChangeHandler',
+    value: function onChangeHandler(name, value) {
+      (0, _validator.handleChange)(name, value, this, (0, _immutable.fromJS)(this.props.subscriptions));
     }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
 
-    _createClass(TextField, [{
-        key: 'onChangeHandler',
-        value: function onChangeHandler(name, value) {
-            (0, _validator.handleChange)(name, value, this);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
+      return _react2.default.createElement(
+        'div',
+        { className: 'form-row' },
+        _react2.default.createElement(
+          'label',
+          { htmlFor: 'form-row__' + this.props.name },
+          this.props.label
+        ),
+        _react2.default.createElement('input', { value: this.state.value, onChange: function onChange(e) {
+            return _this2.onChangeHandler(_this2.props.name, e.target.value);
+          },
+          type: this.props.type,
+          autoComplete: 'off',
+          placeholder: this.props.placeholder,
+          className: 'input --text --' + this.props.type,
+          required: this.props.required,
+          name: this.props.name }),
+        _react2.default.createElement(_ValidationLabel2.default, { show: !this.state.valid && this.state.dirty, message: this.state.validationMessage })
+      );
+    }
+  }]);
 
-            return _react2.default.createElement(
-                'div',
-                { className: 'form-row' },
-                _react2.default.createElement(
-                    'label',
-                    { htmlFor: 'form-row__' + this.props.name },
-                    this.props.label
-                ),
-                _react2.default.createElement('input', { value: this.state.value, onChange: function onChange(e) {
-                        return _this2.onChangeHandler(_this2.props.name, e.target.value);
-                    },
-                    type: this.props.type,
-                    autoComplete: 'off',
-                    placeholder: this.props.placeholder,
-                    className: 'input --text --' + this.props.type,
-                    required: this.props.required,
-                    name: this.props.name }),
-                _react2.default.createElement(_ValidationLabel2.default, { show: !this.state.valid && this.state.dirty, message: this.state.validationMessage })
-            );
-        }
-    }]);
-
-    return TextField;
+  return TextField;
 }(_react2.default.Component);
 
 exports.default = (0, _reactRedux.connect)(function (state, ownProps) {
-    return {
-        name: ownProps.name,
-        value: state.getIn(['variables', ownProps.name], ''),
-        dirty: state.hasIn(['variables', ownProps.name]),
-        placeholder: ownProps.placeholder,
-        required: ownProps.required,
-        label: ownProps.label || '',
-        type: ownProps.type || 'text'
-    };
+
+  return {
+    name: ownProps.name,
+    value: state.getIn(['variables', ownProps.name], ''),
+    dirty: state.hasIn(['variables', ownProps.name]),
+    placeholder: ownProps.placeholder,
+    required: ownProps.required,
+    label: ownProps.label || '',
+    type: ownProps.type || 'text',
+    subscriptions: ownProps.subscriptions !== null ? JSON.stringify((0, _validator.getSubscribedVariablesList)(state, JSON.parse(ownProps.subscriptions))) : null
+  };
 }, actionCreators)(TextField);
 
 /***/ }),
