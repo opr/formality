@@ -1,8 +1,0 @@
-{
-  "all": true,
-  "sourceMap": false,
-  "instrument": false,
-  "exclude": [
-    "assets/js/**/*.js"
-  ]
-}

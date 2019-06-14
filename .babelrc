@@ -1,31 +1,37 @@
 {
-  "presets": [
-    "env",
-    [
-      "latest",
-      {
-        "es2015": {
-          "modules": false
-        }
-      }
-    ],
-    "react"
-  ],
   "env": {
-    "coverage": {
+    "production": {
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ],
       "plugins": [
-        "istanbul",
-        "transform-object-rest-spread"
+        "transform-object-rest-spread",
+        "@babel/plugin-transform-regenerator",
+        "@babel/plugin-transform-runtime"
       ]
     },
-    "production": {
+    "test": {
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ],
       "plugins": [
-        "transform-object-rest-spread"
+        "transform-object-rest-spread",
+        "@babel/plugin-transform-regenerator",
+        "@babel/plugin-transform-runtime",
+        "istanbul"
       ]
     },
     "development": {
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ],
       "plugins": [
         "react-hot-loader/babel",
+        "@babel/plugin-transform-regenerator",
+        "@babel/plugin-transform-runtime",
         "transform-object-rest-spread"
       ]
     }
