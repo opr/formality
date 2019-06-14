@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
-import UserProfile from './UserProfile/UserProfile';
+import {FormalityTest} from './FormalityTest/FormalityTest';
 
 const getRenderFunc = app => {
   return () => {
@@ -19,17 +19,17 @@ const render = (Component, element, name, hydrate = false) => {
   );
 };
 const elements = {
-  userProfile: document.getElementsByClassName('user-profile__react-anchor')
+  formalityTest: document.getElementsByClassName('formality-test__react-anchor')
 };
 
 const apps = [];
 
-if (elements.userProfile.length > 0) {
-  apps.push(...Array.from(elements.userProfile).map(element => ({
+if (elements.formalityTest.length > 0) {
+  apps.push(...Array.from(elements.formalityTest).map(element => ({
     element,
-    component: <UserProfile/>,
-    file: './UserProfile/UserProfile',
-    name: 'UserProfile'
+    component: <FormalityTest />,
+    file: './FormalityTest/FormalityTest',
+    name: 'FormalityTest'
   })));
 }
 

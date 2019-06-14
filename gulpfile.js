@@ -1,4 +1,4 @@
-const appUrl = 'localhost:33972';
+const appUrl = 'localhost:8088';
 const {src, dest, parallel, watch, task} = require('gulp');
 const webpackStream = require('webpack-stream');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -108,8 +108,8 @@ function errorAlert(error) {
   console.log(error.toString());//Prints Error to Console
   this.emit('end'); //End function
 }
-const dev = parallel(webpack, webpackSsr, webpackSass, browser_sync, watchFiles);
-const build = parallel(webpackProd, webpackSsr, webpackSass);
+const dev = parallel(webpack, webpackSass, browser_sync, watchFiles);
+const build = parallel(webpackProd, webpackSass);
 
 exports.dev = dev;
 exports.build = build;

@@ -3,12 +3,10 @@ import addNumber from './addNumber';
 const pageFunctions = {
     common: {
         init() {
-            console.log('init');
             addNumber(1,2);
         },
 
         finalize() {
-            console.log('finalise');
         }
     }
 };
