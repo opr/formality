@@ -1,3 +1,3 @@
 export const constants = {
-  EXAMPLE_CONSTANT_KEY: 'value'
+  CHANGE_FIELD_VALUE: 'CHANGE_FIELD_VALUE'
 };

@@ -47,11 +47,11 @@
   },
   "homepage": "https://github.com/opr/bloc",
   "dependencies": {
+    "redux-mock-store": "^1.5.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-rc.1",
     "@babel/core": "^7.0.0-rc.1",
-    "babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
     "@babel/plugin-transform-regenerator": "^7.4.4",
     "@babel/plugin-transform-runtime": "^7.4.3",
     "@babel/polyfill": "^7.0.0-rc.1",
@@ -61,6 +61,7 @@
     "@hot-loader/react-dom": "^16.8.6",
     "babel-loader": "^8.0.0-beta.4",
     "babel-plugin-istanbul": "^5.0.1",
+    "babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
     "babel-preset-latest": "7.0.0-alpha.7",
     "browser-sync": "^2.23.6",
     "chai": "^4.2.0",
@@ -94,7 +95,7 @@
     "react-dom": "^16.8.6",
     "react-hot-loader": "^4.8.4",
     "react-immutable-proptypes": "^2.1.0",
-    "react-redux": "^7.0.3",
+    "react-redux": "^7.1.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-immutable": "^4.0.0",
@@ -103,6 +104,8 @@
     "sass-lint": "^1.13.1",
     "sass-lint-webpack": "^1.0.1",
     "sass-loader": "^7.1.0",
+    "sinon": "^7.3.2",
+    "sinon-test": "^2.4.0",
     "style-loader": "^0.23.1",
     "superagent": "^5.0.5",
     "terser-webpack-plugin": "^1.2.3",
@@ -111,8 +114,8 @@
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1",
     "webpack-dev-middleware": "^3.6.2",
-    "webpack-hot-middleware": "^2.24.0",
     "webpack-dev-server": "^3.3.1",
+    "webpack-hot-middleware": "^2.24.0",
     "webpack-stream": "^5.2.1",
     "webpack-watch-files-plugin": "^1.0.3",
     "write-file-webpack-plugin": "^4.5.0"

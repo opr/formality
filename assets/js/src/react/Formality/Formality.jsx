@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
 import {FormalityPagination} from './FormalityPagination';
+import {Provider} from 'react-redux';
+import makeStore from '../redux-config/store';
+import {Map} from 'immutable';
+import {setUpInitialState} from './core';
 
 export const Formality = props => {
-  useEffect(() => {
-    //set up the initial state based on our props
-    console.log('setting intial state :D');
-  }, [props.config]);
-
-  return <div className={'formality'}>
-    <div className={'formality__inner'}>
-      <FormalityPagination/>
+  return <Provider store={makeStore(props.config)}>
+    <div className={'formality'}>
+      <div className={'formality__inner'}>
+        <FormalityPagination/>
+      </div>
     </div>
-  </div>;
+  </Provider>;
 };

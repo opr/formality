@@ -23,8 +23,8 @@ const emitter = new EventEmitter();
 // Watch Files For Changes
 const watchSass = () => watch('assets/styles/scss/**/*.scss', webpackSass);
 const watchJs = () => watch('assets/js/src/**/*.+(js|ts|jsx)', webpack);
-const watchJsSsr = () => watch('assets/js/src/**/*.+(js|ts|jsx)', webpackSsr);
-const watchFiles = parallel(watchJs, watchSass, watchJsSsr);
+//const watchJsSsr = () => watch('assets/js/src/**/*.+(js|ts|jsx)', webpackSsr);
+const watchFiles = parallel(watchJs, watchSass);
 
 const webpack = () => {
   env({
@@ -70,7 +70,7 @@ const webpackSassDebug = () => {
   }))
     .pipe(dest('./assets/dist/'));
 };
-const webpackSsr = () => {
+/*const webpackSsr = () => {
   env({
     vars: {
       BABEL_ENV: 'production'
@@ -80,7 +80,7 @@ const webpackSsr = () => {
     errorHandler: errorAlert
   }))
     .pipe(dest('./assets/dist/'));
-};
+};*/
 const webServer = () =>
   src('.').pipe(webserver({port: 8088}));
 
@@ -118,7 +118,7 @@ exports.webServer = webServer;
 exports.watch = watchFiles;
 exports.webpackSass = webpackSass;
 exports.webpackSassDebug = webpackSassDebug;
-exports.webpackSsr = webpackSsr;
+//exports.webpackSsr = webpackSsr;
 exports.webpackProd = webpackProd;
 exports.browserSync = browser_sync;
 exports.default = dev;
