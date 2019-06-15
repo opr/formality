@@ -5,13 +5,14 @@ import makeStore from '../redux-config/store';
 import {Map} from 'immutable';
 import {setUpInitialState} from './core';
 import {FormalityPage} from './FormalityPage';
+import {normalizeState} from './schema';
 
 export const Formality = props => {
-  return <Provider store={makeStore(props.config)}>
+  return <Provider store={makeStore(normalizeState(props.config))}>
     <div className={'formality'}>
       <div className={'formality__inner'}>
         <FormalityPagination/>
-        <FormalityPage />
+        <FormalityPage/>
       </div>
     </div>
   </Provider>;

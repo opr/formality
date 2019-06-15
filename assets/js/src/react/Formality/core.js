@@ -1,15 +1,16 @@
 import {fromJS, isImmutable, List, Map} from 'immutable';
+import './schema.js';
+import {normalizeState} from './schema';
 
 export const setUpInitialState = config => {
-  if (isImmutable(config)) {
-    return config;
-  }
-  return fromJS(config);
+  const nextConfig = isImmutable(config) ? config.toJS() : config;
+  return normalizeState(nextConfig);
 };
 
 export const changeFieldValue = (state, name, value) => {
   //find the appropriate page -> section -> field to update
   const path = derivePathFromVariableName(state, name);
+  return state.setIn(path, value);
 };
 
 export const derivePathFromVariableName = (state, name) => {
@@ -19,7 +20,6 @@ export const derivePathFromVariableName = (state, name) => {
     /* istanbul ignore else */
     if (process.env.NODE_ENV === 'test') {
       global['memoizationTestFunc']();
-      console.log('test');
     }
 
     return path;
@@ -40,7 +40,9 @@ export const derivePathFromVariableName = (state, name) => {
       });
 
       if (relevantField !== undefined) {
+        foundPath.push('value');
         foundPath.push(relevantField);
+        foundPath.push('fields');
         return true;
       }
 
@@ -48,19 +50,25 @@ export const derivePathFromVariableName = (state, name) => {
 
     if (relevantSection !== undefined) {
       foundPath.push(relevantSection);
+      foundPath.push('sections');
       return true;
     }
   });
 
   if (pageKey !== undefined) {
     foundPath.push(pageKey);
+    foundPath.push('pages');
     const finalPath = foundPath.reverse();
     searchedItems = searchedItems.set(name, finalPath);
     return finalPath;
   }
 
-  throw new Error(`Searching for a field name that does not exist anywhere in the form. Searched field name was: ${name}`)
+  throw new Error(`Searching for a field name that does not exist anywhere in the form. Searched field name was: ${name}`);
 
 };
 
 let searchedItems = Map({});
+
+export const clearListOfSearchedItems = () => {
+  searchedItems = Map({});
+};

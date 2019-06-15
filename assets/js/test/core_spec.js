@@ -7,7 +7,7 @@ import {FormalityPagination} from '../src/react/Formality/FormalityPagination';
 import {mount, shallow} from 'enzyme';
 import {mockStore} from './test_helper';
 import {Provider} from 'react-redux';
-import {derivePathFromVariableName, setUpInitialState} from '../src/react/Formality/core';
+import {clearListOfSearchedItems, derivePathFromVariableName, setUpInitialState} from '../src/react/Formality/core';
 
 describe('Formality core', () => {
   const test = sinonTest(sinon);
@@ -119,35 +119,42 @@ describe('Formality core', () => {
 
   describe('derivePathFromName', () => {
 
+    afterEach(() => {
+      clearListOfSearchedItems()
+    });
+
     const test = sinonTest(sinon);
-    it('gets the path to a field when given just the variable name', test(function () {
-      const expectedPath = [0, 0, 0];
-      const secondExpectedPath = [0, 0, 1];
-      const thirdExpectedPath = [1, 0, 1];
+    it('gets the path to a field when given just the variable name', function () {
+      const expectedPath = ['pages', 0, 'sections', 0, 'fields', 0, 'value'];;
+      const secondExpectedPath = ['pages', 0, 'sections', 0, 'fields', 1, 'value'];;
+      const thirdExpectedPath = ['pages', 1, 'sections', 0, 'fields', 1, 'value'];;
       expect(derivePathFromVariableName(tree, 'Address one')).to.deep.equal(expectedPath);
       expect(derivePathFromVariableName(tree, 'Address two')).to.deep.equal(secondExpectedPath);
       expect(derivePathFromVariableName(tree, 'Company Address two')).to.deep.equal(thirdExpectedPath);
-    }));
+    });
 
-    it('does not search the entire tree if a search has already been done!', test(function () {
-      const expectedPath = [0, 0, 0];
+
+    it('does not search the entire tree if a search has already been done!', function () {
+      const expectedPath = ['pages', 0, 'sections', 0, 'fields', 0, 'value'];
       global['memoizationTestFunc'] = () => expectedPath;
-      const mock = this.mock(global);
+      const mock = sandbox.mock(global);
       mock.expects('memoizationTestFunc').once();
+      console.log(global['memoizationTestFunc']);
       expect(derivePathFromVariableName(tree, 'Address one')).to.deep.equal(expectedPath);
       expect(derivePathFromVariableName(tree, 'Address one')).to.deep.equal(expectedPath);
       mock.verify();
-    }));
+    });
 
-    it('throws if the key is not found', test(function () {
+
+    it('throws if the key is not found', function () {
       const testFunctions = {derivePathFromVariableName};
-      const spy = this.spy(testFunctions, 'derivePathFromVariableName');
+      const spy = sandbox.spy(testFunctions, 'derivePathFromVariableName');
       try {
         testFunctions.derivePathFromVariableName(tree, 'fakefield');
       } catch (e) { /*not handling exception because I want it to happen! */
       }
       expect(spy.threw()).to.be.true;
-    }));
+    });
   });
 
   describe('setUpInitialState', () => {

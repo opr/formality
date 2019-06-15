@@ -47,6 +47,7 @@
   },
   "homepage": "https://github.com/opr/bloc",
   "dependencies": {
+    "normalizr": "^3.4.0",
     "redux-mock-store": "^1.5.3"
   },
   "devDependencies": {

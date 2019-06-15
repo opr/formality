@@ -9,6 +9,7 @@ export const TextField = props => {
   const name = props.field.get('name', '');
   const label = props.field.get('label', name);
   const value = props.field.get('value', '');
+  console.log('rerendering', name);
 
   return <div className={'formality__field --text'}>
     <label className={'formality__field__label'}>{label}</label>
