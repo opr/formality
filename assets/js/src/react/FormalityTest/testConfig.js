@@ -14,7 +14,7 @@ export const testConfig = {
 
     //page 1
     {
-      title: 'Personal details',
+      name: 'Personal details',
       //you can give an array of extra classes to add to this page
       classes: ['extra-class-on-section'],
 

@@ -16,4 +16,16 @@ describe('Formality pagination', () => {
     const mountedPagination = mount(<Provider store={store}><FormalityPagination/></Provider>);
     expect(mountedPagination.find('.formality__pagination__pager').length).to.equal(2);
   });
+
+  it('puts an active class on the pagination divs that corresponds to the currently selected page', () => {
+    const store = mockStore(Map({currentPage: 2, pages: List([Map({}), Map({}), Map({})])}));
+    const mountedPagination = mount(<Provider store={store}><FormalityPagination/></Provider>);
+    expect(mountedPagination.find('.formality__pagination__pager').at(2).hasClass('--active')).to.be.true;
+    expect(mountedPagination.find('.formality__pagination__pager').at(1).hasClass('--active')).to.be.false;
+  });
+
+  it('puts an active class on the first pagination div if currentPage is not set', () => {
+    const mountedPagination = mount(<Provider store={store}><FormalityPagination/></Provider>);
+    expect(mountedPagination.find('.formality__pagination__pager').at(0).hasClass('--active')).to.be.true;
+  });
 });

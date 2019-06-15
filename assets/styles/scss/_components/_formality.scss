@@ -1,0 +1,6 @@
+@include component(formality) {
+
+  @include part(field) {
+    margin-bottom: 20px;
+  }
+}

@@ -12,7 +12,7 @@ const makeStore = (_INITIAL_STATE = null) => {
   if (!isImmutable(INITIAL_STATE)) {
     INITIAL_STATE = fromJS(INITIAL_STATE);
   }
-  console.log(INITIAL_STATE);
+  
   const sagaMiddleware = createSagaMiddleware();
   const middleware = [sagaMiddleware];
   if (process.env.NODE_ENV !== 'production') {
