@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import {List} from 'immutable';
 import {FieldFactory} from './FieldFactory';
 import {useSelector} from 'react-redux';
+import {immutableEqualityCheck} from './core';
 
 export const FormalitySection = props => {
   const title = props.section.get('name', false);

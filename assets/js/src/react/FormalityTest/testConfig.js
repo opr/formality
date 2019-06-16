@@ -33,7 +33,15 @@ export const testConfig = {
           fields: [
             {
               name: 'Address one',
-              type: 'text'
+              type: 'text',
+              //validation will be a map with some options/conditions, you can also pass a function that will receive
+              // an immutable list of fields and next field value
+              validation: {
+                length: 5,
+                regex: /[a-zA-Z0-9]*/,
+                compare: 'Address two',
+                operator: '!='
+              }
             },
             {
               name: 'Address two',

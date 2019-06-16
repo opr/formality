@@ -5,7 +5,16 @@ export const normalizeState = config => {
   //loop through and set IDs in everything
   let index = 0;
 
+  if (!config.pages) {
+    throw new Error('Config must have pages property');
+  }
+
   let newConfig = fromJS(config);
+
+  if (!Map.isMap(newConfig.get('config', null))) {
+    newConfig = newConfig.set('config', Map({}));
+  }
+
   newConfig = newConfig.update('pages', Map({}), page => page.map(page => page.set('id', index++)
     .update('sections', undefined, sections => sections.map(section => section.set('id', index++)
       .update('fields', undefined, fields => fields.map(field => field.set('id', index++)))

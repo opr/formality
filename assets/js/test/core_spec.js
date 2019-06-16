@@ -117,51 +117,38 @@ describe('Formality core', () => {
   const store = mockStore(tree);
   const sandbox = sinon.createSandbox();
 
-  describe('derivePathFromName', () => {
-
-    afterEach(() => {
-      clearListOfSearchedItems()
-    });
-
-    const test = sinonTest(sinon);
-    it('gets the path to a field when given just the variable name', function () {
-      const expectedPath = ['pages', 0, 'sections', 0, 'fields', 0, 'value'];;
-      const secondExpectedPath = ['pages', 0, 'sections', 0, 'fields', 1, 'value'];;
-      const thirdExpectedPath = ['pages', 1, 'sections', 0, 'fields', 1, 'value'];;
-      expect(derivePathFromVariableName(tree, 'Address one')).to.deep.equal(expectedPath);
-      expect(derivePathFromVariableName(tree, 'Address two')).to.deep.equal(secondExpectedPath);
-      expect(derivePathFromVariableName(tree, 'Company Address two')).to.deep.equal(thirdExpectedPath);
-    });
-
-
-    it('does not search the entire tree if a search has already been done!', function () {
-      const expectedPath = ['pages', 0, 'sections', 0, 'fields', 0, 'value'];
-      global['memoizationTestFunc'] = () => expectedPath;
-      const mock = sandbox.mock(global);
-      mock.expects('memoizationTestFunc').once();
-      console.log(global['memoizationTestFunc']);
-      expect(derivePathFromVariableName(tree, 'Address one')).to.deep.equal(expectedPath);
-      expect(derivePathFromVariableName(tree, 'Address one')).to.deep.equal(expectedPath);
-      mock.verify();
-    });
-
-
-    it('throws if the key is not found', function () {
-      const testFunctions = {derivePathFromVariableName};
-      const spy = sandbox.spy(testFunctions, 'derivePathFromVariableName');
-      try {
-        testFunctions.derivePathFromVariableName(tree, 'fakefield');
-      } catch (e) { /*not handling exception because I want it to happen! */
-      }
-      expect(spy.threw()).to.be.true;
-    });
-  });
-
   describe('setUpInitialState', () => {
 
-    it('returns an immutable object if sent a normal JS object', test(function () {
-      expect(isImmutable(setUpInitialState({myTest: true}))).to.be.true;
-      expect(isImmutable(setUpInitialState(Map({myTest: true})))).to.be.true;
+    it('returns an immutable object if sent a normal JS object or an immutable map', test(function () {
+      const config = Map({
+        pages: List([
+          Map({
+            sections: List([
+              Map({
+                fields: List([
+                  Map({
+                    name: 'page1'
+                  })
+                ])
+              })
+            ])
+          }),
+          Map({
+            sections: List([
+              Map({
+                fields: List([
+                  Map({
+                    name: 'page2'
+                  })
+                ])
+              })
+            ])
+          }),
+        ])
+      });
+
+      expect(isImmutable(setUpInitialState(config))).to.be.true;
+      expect(isImmutable(setUpInitialState(config.toJS()))).to.be.true;
     }));
 
   });
