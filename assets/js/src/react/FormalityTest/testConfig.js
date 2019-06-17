@@ -40,7 +40,7 @@ export const testConfig = {
                 length: 5,
                 regex: /[a-zA-Z0-9]*/,
                 compare: 'Address two',
-                operator: '!='
+                compareOperator: '!='
               }
             },
             {

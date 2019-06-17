@@ -1,6 +1,7 @@
 import {fromJS, isImmutable, List, Map} from 'immutable';
 import './schema.js';
 import {normalizeState} from './schema';
+import {isFieldValid} from './validation';
 
 export const setUpInitialState = config => {
   const nextConfig = isImmutable(config) ? config.toJS() : config;
@@ -13,17 +14,10 @@ export const changeFieldValue = (state, id, value) => {
   const key = state.getIn(['data', 'entities', 'fields'], Map({})).findKey(field => field.get('id') === id);
 
   //check if the field is valid according to its validation rules!
-  if (isFieldValid(state, key, value)) {
+
     return state.updateIn(['data', 'entities', 'fields', key],
       undefined,
-      field => field.set('value', value).set('valid', true));
-  }
-  return state.setIn(['data', 'entities', 'fields', key, 'valid'], false);
-};
-
-export const isFieldValid = (state, key, value) => {
-  return true;
-  const validation = state.getIn(['data', 'entities', ''])
+      field => field.set('value', value).set('valid', isFieldValid(state, key, value)));
 };
 
 let searchedItems = Map({});
