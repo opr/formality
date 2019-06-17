@@ -1,7 +1,13 @@
 import {List, Map} from 'immutable';
 
 export const isFieldValid = (state, key, value, validationOverride = null) => {
-  const validation = validationOverride === null ? state.getIn(['data', 'entities', 'fields', key.toString(), 'validation'], Map({})) : validationOverride;
+
+  //validation override can be passed to specify the validation object, used only when looping through a list of
+  //validation criteria
+  const validation = validationOverride === null
+    ? state.getIn(['data', 'entities', 'fields', key.toString(), 'validation'], Map({}))
+    : validationOverride;
+
   const fields = state.getIn(['data', 'entities', 'fields'], Map({}));
 
   if (validation.count() === 0) {
@@ -9,6 +15,8 @@ export const isFieldValid = (state, key, value, validationOverride = null) => {
     return true;
   }
 
+  //user has set a list of validation criteria, so loop through them, validate each one as a standalone validation,
+  //then .every them to see if they all passed. Will add an option later to set and/or behaviour on this, but not now.
   if (List.isList(validation)) {
     return validation.map(validationEntry => isFieldValid(state, key, value, validationEntry)).every(x => x);
   }
@@ -19,8 +27,7 @@ export const isFieldValid = (state, key, value, validationOverride = null) => {
   }
 
   if (validation.has('regex') && typeof value === 'string') {
-    const regex = validation.get('regex');
-    return value.match(new RegExp(regex)) !== null;
+    return value.match(new RegExp(validation.get('regex'))) !== null;
   }
 
   if (validation.has('compare')) {
