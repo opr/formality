@@ -30,12 +30,21 @@ export const isFieldValid = (state, key, value, validationOverride = null) => {
     if (compareField === undefined) {
       return true;
     }
+
+    //we're going to be comparing strings, ints, floats, or anything else
+    //so we should parse the input into that type, there's no real "parseString" method, so we made one up
+    //to make it easier for us below (in the switch) otherwise we'd have a bunch of if statements and I didn't want that
     const parseString = s => s.toString();
+
+    //the comparison will always be "new value compared to extant value" hence the below
     const leftCompareValue = value;
     const rightCompareValue = compareField.get('value', '');
+
+    //compareAs may not be defined, so in this case we'll just return the datum as it is passed in, hence compareFunc
     let compareAs = null;
     let compareFunc = x => x;
 
+    //then if they have specified a comparison then we set it as per the compareAs
     if (validation.has('compareAs')) {
       compareAs = validation.get('compareAs');
     }
@@ -52,6 +61,7 @@ export const isFieldValid = (state, key, value, validationOverride = null) => {
       compareFunc = parseFloat;
     }
 
+    //default value is ==, which we take to mean strict equality checking, might change later to == if enough users want it
     switch (validation.get('compareOperator', '==')) {
       case '==':
         return compareFunc(leftCompareValue) === compareFunc(rightCompareValue);
