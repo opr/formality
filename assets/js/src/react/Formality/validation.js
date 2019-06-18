@@ -1,6 +1,6 @@
 import {List, Map} from 'immutable';
 
-export const isFieldValid = (state, key, value, validationOverride = null) => {
+export const isFieldValid = (state, key, value, validationOverride = null, callNumber = 0) => {
 
   //validation override can be passed to specify the validation object, used only when looping through a list of
   //validation criteria
@@ -17,8 +17,27 @@ export const isFieldValid = (state, key, value, validationOverride = null) => {
 
   //user has set a list of validation criteria, so loop through them, validate each one as a standalone validation,
   //then .every them to see if they all passed. Will add an option later to set and/or behaviour on this, but not now.
+  let invalidRule = -1;
   if (List.isList(validation)) {
-    return validation.map(validationEntry => isFieldValid(state, key, value, validationEntry)).every(x => x);
+    let call = 0;
+    const v = Map({
+      valid: validation.map(validationEntry => isFieldValid(state, key, value, validationEntry, call++))
+        .every((x, index) => {
+          if (!x) {
+            invalidRule = index;
+          }
+          return x;
+        }), invalidRule
+    });
+    console.log(v.toJS());
+    return v;
+  }
+
+  if (validation.has('required')) {
+    console.log('val r', (!!validation.get('required', false)), value, (value === '' || value === null || value === undefined));
+    if ((!!validation.get('required', false)) && (value === '' || value === null || value === undefined)) {
+      return false;
+    }
   }
 
   //easiest and quickest thing to validate is length
@@ -26,13 +45,19 @@ export const isFieldValid = (state, key, value, validationOverride = null) => {
     return false;
   }
 
+
   if (validation.has('regex') && typeof value === 'string') {
     return value.match(new RegExp(validation.get('regex'))) !== null;
   }
 
-  if (validation.has('compare')) {
-    const compareName = validation.get('compare');
+  if (validation.has('compareTo')) {
+
+    console.log(validation, key);
+
+    const compareName = validation.get('compareTo');
     const compareField = fields.find(field => field.get('name') === compareName);
+
+    console.log(compareField, 'cf');
 
     if (compareField === undefined) {
       return true;
@@ -68,6 +93,7 @@ export const isFieldValid = (state, key, value, validationOverride = null) => {
       compareFunc = parseFloat;
     }
 
+    console.log(validation.get('compareOperator', '=='));
     //default value is ==, which we take to mean strict equality checking, might change later to == if enough users want it
     switch (validation.get('compareOperator', '==')) {
       case '==':
@@ -92,4 +118,24 @@ export const isFieldValid = (state, key, value, validationOverride = null) => {
   }
 
   return true;
+};
+
+
+export const findLinkedFields = (state, currentField) => {
+  const field = state.getIn(['data', 'entities', 'fields', currentField.toString()], Map({}));
+  const fieldName = field.get('name', '');
+
+  return state.getIn(['data', 'entities', 'fields'], Map({}))
+    .filter(field => {
+      if (!field.has('validation')) {
+        return false;
+      }
+      const validation = field.get('validation', Map({}));
+
+      if (List.isList(validation)) {
+        return validation.filter(validationItem => validationItem.get('compareTo', null) === fieldName).count() > 0;
+      }
+
+      return validation.get('compareTo', null) === fieldName;
+    }).map(x => x.get('id', -1)).toList();
 };

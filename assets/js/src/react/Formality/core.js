@@ -1,7 +1,7 @@
 import {fromJS, isImmutable, List, Map} from 'immutable';
 import './schema.js';
 import {normalizeState} from './schema';
-import {isFieldValid} from './validation';
+import {findLinkedFields, isFieldValid} from './validation';
 
 export const setUpInitialState = config => {
   const nextConfig = isImmutable(config) ? config.toJS() : config;
@@ -12,12 +12,27 @@ export const setUpInitialState = config => {
 export const changeFieldValue = (state, id, value) => {
   //find the appropriate page -> section -> field to update
   const key = state.getIn(['data', 'entities', 'fields'], Map({})).findKey(field => field.get('id') === id);
+  let nextState = state;
+  //find linked fields and run validation on those as a result
+  const linkedFields = findLinkedFields(state, key);
+
+  console.log(linkedFields);
+
+
+  linkedFields.forEach(_linkedField => {
+    const id = _linkedField.toString();
+    const linkedField = state.getIn(['data', 'entities', 'fields', id]);
+    console.log(linkedField);
+    nextState = nextState;
+    console.log(isFieldValid(state, id, linkedField.get('value', null)));
+
+  });
 
   //check if the field is valid according to its validation rules!
 
-    return state.updateIn(['data', 'entities', 'fields', key],
-      undefined,
-      field => field.set('value', value).set('valid', isFieldValid(state, key, value)));
+  return nextState.updateIn(['data', 'entities', 'fields', key],
+    undefined,
+    field => field.set('value', value).set('valid', isFieldValid(state, key, value)));
 };
 
 let searchedItems = Map({});

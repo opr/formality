@@ -7,7 +7,7 @@ export const testConfig = {
     callbackUrl: '/my-api',
 
     //callback method - which verb to use when submitting the form
-    callbackMethod: 'POST',
+    callbackMethod: 'POST'
   },
 
   //here we begin to define the form itself
@@ -39,15 +39,22 @@ export const testConfig = {
               validation: {
                 length: 5,
                 regex: /[a-zA-Z0-9]*/,
-                compare: 'Address two',
-                compareOperator: '!='
+                compareTo: 'Address two',
+                compareOperator: '!=',
+                invalidMessage: 'Too short, or cant be the same as address 2!'
               }
             },
             {
               name: 'Address two',
               type: 'text',
               //you can give an array of classes to add to this field
-              classes: ['extra-class-one']
+              classes: ['extra-class-one'],
+              validation: [
+                {
+                  length: 2,
+                  invalidMessage: 'Too short'
+                }
+              ]
             }
           ]
         },
