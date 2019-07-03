@@ -22,9 +22,13 @@ export const changeFieldValue = (state, id, value) => {
   linkedFields.forEach(_linkedField => {
     const id = _linkedField.toString();
     const linkedField = state.getIn(['data', 'entities', 'fields', id]);
-    console.log(linkedField);
-    nextState = nextState;
-    console.log(isFieldValid(state, id, linkedField.get('value', null)));
+    console.log(linkedField, 'is linked to', state.getIn(['data', 'entities', 'fields', key]));
+    nextState = nextState.updateIn(['data', 'entities', 'fields', id],
+      undefined,
+      field => field.set('valid', isFieldValid(state, id, linkedField.get('value', null), linkedField.get('validation'), undefined, value)));
+
+    //isFieldValid(state, id, linkedField.get('value', null), linkedField.get('validation'), undefined, value)
+    //console.log('checking field', id, isFieldValid(state, id, linkedField.get('value', null), linkedField.get('validation')));
 
   });
 
@@ -32,7 +36,7 @@ export const changeFieldValue = (state, id, value) => {
 
   return nextState.updateIn(['data', 'entities', 'fields', key],
     undefined,
-    field => field.set('value', value).set('valid', isFieldValid(state, key, value)));
+    field => field.set('dirty', true).set('value', value).set('valid', isFieldValid(state, key, value)));
 };
 
 let searchedItems = Map({});

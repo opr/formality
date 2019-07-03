@@ -14,7 +14,8 @@ describe('Validation', () => {
         entities: Map({
           fields: Map({
             '0': Map({
-              value: 'd'
+              value: 'd',
+              dirty: true
             })
           })
         })

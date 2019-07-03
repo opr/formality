@@ -55,6 +55,26 @@ export const testConfig = {
                   invalidMessage: 'Too short'
                 }
               ]
+            },
+            {
+              name: 'Email',
+              type: 'text',
+              validation: {
+                compareTo: 'Confirm email',
+                compareOperator: '==',
+                invalidMessage: 'Emails must match',
+                compareOnlyIfDirty: true
+              }
+            },
+            {
+              name: 'Confirm email',
+              type: 'text',
+              validation: {
+                compareTo: 'Email',
+                compareOperator: '==',
+                invalidMessage: 'Emails must match',
+                compareOnlyIfDirty: true
+              }
             }
           ]
         },
