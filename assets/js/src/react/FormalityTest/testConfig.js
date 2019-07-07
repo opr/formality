@@ -32,6 +32,11 @@ export const testConfig = {
           //the fields in the section, an array of objects
           fields: [
             {
+              name: 'Voucher code',
+              type: 'checkbox',
+              value: 'voucher-applied'
+            },
+            {
               name: 'Address one',
               type: 'text',
               //validation will be a map with some options/conditions, you can also pass a function that will receive
@@ -70,7 +75,7 @@ export const testConfig = {
                   required: true,
                   invalidMessage: 'Email is required'
                 }
-              ]
+              ],
             },
             {
               name: 'Confirm email',

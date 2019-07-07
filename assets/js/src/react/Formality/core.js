@@ -10,7 +10,7 @@ export const setUpInitialState = config => {
 };
 
 export const setDirty = (state, name) => {
-  const key = state.getIn(['data', 'entities', 'fields'], Map({})).findKey(field => field.get('name') === name);
+  const key = state.getIn(['data', 'entities', 'fields'], Map({})).findKey(field => field.get('id') === name);
   return state.setIn(['data', 'entities', 'fields', key, 'dirty'], true);
 };
 

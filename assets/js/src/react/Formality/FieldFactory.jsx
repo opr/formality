@@ -20,7 +20,7 @@ export const FieldFactory = React.memo(props => {
     ? field.getIn(['validation', field.getIn(['valid', 'invalidRule'], 0), 'invalidMessage'], 'Invalid')
     : field.getIn(['validation', 'invalidMessage'], 'Invalid');
 
-  const changeFunc = e => dispatch(changeFieldValue(numericId, e.target.value));
+  let changeFunc = e => dispatch(changeFieldValue(numericId, e.target.value));
 
   switch (field.get('type', '')) {
     case 'text' :
@@ -30,6 +30,15 @@ export const FieldFactory = React.memo(props => {
         dispatch(changeFieldValue(numericId, e.target.value));
       }} id={numericId} type={type} name={name} value={value}
                              onChange={changeFunc}/>;
+      break;
+    case 'checkbox':
+      changeFunc = e => dispatch(changeFieldValue(numericId, e.target.checked ? value : false));
+      fieldToRender = <input onBlur={e => {
+        dispatch(setDirty(numericId));
+        dispatch(changeFieldValue(numericId, value));
+      }} id={numericId} type={type} name={name} onChange={changeFunc}
+                             checked={value !== false && value !== null && value !== undefined} value={value}/>;
+      break;
   }
 
   return <div className={`formality__field --${type}`}>
