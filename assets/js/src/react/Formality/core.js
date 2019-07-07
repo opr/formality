@@ -9,6 +9,11 @@ export const setUpInitialState = config => {
   return normalizeState(nextConfig);
 };
 
+export const setDirty = (state, name) => {
+  const key = state.getIn(['data', 'entities', 'fields'], Map({})).findKey(field => field.get('name') === name);
+  return state.setIn(['data', 'entities', 'fields', key, 'dirty'], true);
+};
+
 export const changeFieldValue = (state, id, value) => {
   //find the appropriate page -> section -> field to update
   const key = state.getIn(['data', 'entities', 'fields'], Map({})).findKey(field => field.get('id') === id);

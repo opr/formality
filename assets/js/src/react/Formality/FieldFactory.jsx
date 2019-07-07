@@ -2,7 +2,7 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {Map} from 'immutable';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeFieldValue} from './actions';
+import {changeFieldValue, setDirty} from './actions';
 import {FormalityValidityLabel} from './FormalityValidityLabel';
 
 export const FieldFactory = React.memo(props => {
@@ -25,7 +25,10 @@ export const FieldFactory = React.memo(props => {
   switch (field.get('type', '')) {
     case 'text' :
     case 'password':
-      fieldToRender = <input id={numericId} type={type} name={name} value={value}
+      fieldToRender = <input onBlur={e => {
+        dispatch(setDirty(numericId));
+        dispatch(changeFieldValue(numericId, e.target.value));
+      }} id={numericId} type={type} name={name} value={value}
                              onChange={changeFunc}/>;
   }
 

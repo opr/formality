@@ -59,22 +59,34 @@ export const testConfig = {
             {
               name: 'Email',
               type: 'text',
-              validation: {
-                compareTo: 'Confirm email',
-                compareOperator: '==',
-                invalidMessage: 'Emails must match',
-                compareOnlyIfDirty: true
-              }
+              validation: [
+                {
+                  compareTo: 'Confirm email',
+                  compareOperator: '==',
+                  invalidMessage: 'Emails must match',
+                  compareOnlyIfDirty: true
+                },
+                {
+                  required: true,
+                  invalidMessage: 'Email is required'
+                }
+              ]
             },
             {
               name: 'Confirm email',
               type: 'text',
-              validation: {
-                compareTo: 'Email',
-                compareOperator: '==',
-                invalidMessage: 'Emails must match',
-                compareOnlyIfDirty: true
-              }
+              validation: [
+                {
+                  compareTo: 'Email',
+                  compareOperator: '==',
+                  invalidMessage: 'Emails must match',
+                  compareOnlyIfDirty: true
+                },
+                {
+                  required: true,
+                  invalidMessage: 'Confirm email is required'
+                }
+              ]
             }
           ]
         },
